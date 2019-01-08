@@ -2,7 +2,7 @@ import unittest
 import TRSensor as TRSensor
 
 
-class Infrared_Line_Tracking_Test(unittest.TestCase):
+class TRSensor_Test(unittest.TestCase):
     def test_dummy(self):
         pass
 
