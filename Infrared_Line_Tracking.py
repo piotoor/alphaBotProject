@@ -45,20 +45,20 @@ class TRSensor(object):
 			GPIO.output(CS, GPIO.LOW)
 			for i in range(0,4):
 				#sent 4-bit Address
-				if(((j) >> (3 - i)) & 0x01):
+				if((j) >> (3 - i)) & 0x01:
 					GPIO.output(Address,GPIO.HIGH)
 				else:
 					GPIO.output(Address,GPIO.LOW)
 				#read MSB 4-bit data
 				value[j] <<= 1
-				if(GPIO.input(DataOut)):
+				if GPIO.input(DataOut):
 					value[j] |= 0x01
 				GPIO.output(Clock,GPIO.HIGH)
 				GPIO.output(Clock,GPIO.LOW)
 			for i in range(0,6):
 				#read LSB 8-bit data
 				value[j] <<= 1
-				if(GPIO.input(DataOut)):
+				if GPIO.input(DataOut):
 					value[j] |= 0x01
 				GPIO.output(Clock,GPIO.HIGH)
 				GPIO.output(Clock,GPIO.LOW)
@@ -81,23 +81,23 @@ class TRSensor(object):
 		min_sensor_values = [0]*self.numSensors
 		for j in range(0,10):
 		
-			sensor_values = self.AnalogRead();
+			sensor_values = self.AnalogRead()
 			
 			for i in range(0,self.numSensors):
 			
 				# set the max we found THIS time
-				if((j == 0) or max_sensor_values[i] < sensor_values[i]):
+				if (j == 0) or max_sensor_values[i] < sensor_values[i]:
 					max_sensor_values[i] = sensor_values[i]
 
 				# set the min we found THIS time
-				if((j == 0) or min_sensor_values[i] > sensor_values[i]):
+				if (j == 0) or min_sensor_values[i] > sensor_values[i]:
 					min_sensor_values[i] = sensor_values[i]
 
 		# record the min and max calibration values
 		for i in range(0,self.numSensors):
-			if(min_sensor_values[i] > self.calibratedMin[i]):
+			if min_sensor_values[i] > self.calibratedMin[i]:
 				self.calibratedMin[i] = min_sensor_values[i]
-			if(max_sensor_values[i] < self.calibratedMax[i]):
+			if max_sensor_values[i] < self.calibratedMax[i]:
 				self.calibratedMax[i] = max_sensor_values[i]
 
 	"""
@@ -110,18 +110,18 @@ class TRSensor(object):
 	def	readCalibrated(self):
 		value = 0
 		#read the needed values
-		sensor_values = self.AnalogRead();
+		sensor_values = self.AnalogRead()
 
 		for i in range (0,self.numSensors):
 
 			denominator = self.calibratedMax[i] - self.calibratedMin[i]
 
-			if(denominator != 0):
+			if denominator != 0 :
 				value = (sensor_values[i] - self.calibratedMin[i])* 1000 / denominator
 				
-			if(value < 0):
+			if value < 0:
 				value = 0
-			elif(value > 1000):
+			elif value > 1000:
 				value = 1000
 				
 			sensor_values[i] = value
@@ -161,22 +161,22 @@ class TRSensor(object):
 		on_line = 0
 		for i in range(0,self.numSensors):
 			value = sensor_values[i]
-			if(white_line):
+			if white_line:
 				value = 1000-value
 			# keep track of whether we see the line at all
-			if(value > 200):
+			if value > 200:
 				on_line = 1
 				
 			# only average in values that are above a noise threshold
-			if(value > 50):
-				avg += value * (i * 1000);  # this is for the weighted total,
-				sum += value;                  #this is for the denominator 
+			if value > 50:
+				avg += value * (i * 1000)  # this is for the weighted total,
+				sum += value                 #this is for the denominator
 
-		if(on_line != 1):
+		if on_line != 1:
 			# If it last read to the left of center, return 0.
-			if(self.last_value < (self.numSensors - 1)*1000/2):
+			if self.last_value < (self.numSensors - 1)*1000/2:
 				#print("left")
-				return 0;
+				return 0
 	
 			# If it last read to the right of center, return the max.
 			else:
@@ -199,8 +199,8 @@ if __name__ == '__main__':
 
 	from AlphaBot import AlphaBot
 	
-	maximum = 35;
-	integral = 0;
+	maximum = 35
+	integral = 0
 	last_proportional = 0
 	
 	TR = TRSensor()
@@ -242,16 +242,16 @@ if __name__ == '__main__':
 		#power_difference = proportional/25 + derivative/100 #+ integral/1000;
 		power_difference = Pid.calculateDifference(position, 25, 100, 1000)
 
-		if (power_difference > maximum):
+		if power_difference > maximum:
 			power_difference = maximum
-		if (power_difference < - maximum):
+		if power_difference < - maximum:
 			power_difference = - maximum
 		print(position,power_difference)
-		if (power_difference < 0):
+		if power_difference < 0:
 			Ab.setPWMB(maximum + power_difference)
-			Ab.setPWMA(maximum);
+			Ab.setPWMA(maximum)
 		else:
-			Ab.setPWMB(maximum);
+			Ab.setPWMB(maximum)
 			Ab.setPWMA(maximum - power_difference)
 			 
 
