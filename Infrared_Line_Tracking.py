@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
-import RPi.GPIO as GPIO
+from RPi import RPi as GPIO
 import time
 import collections
 import pid as PID
