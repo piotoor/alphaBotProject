@@ -10,7 +10,6 @@ CS = 5
 Clock = 25
 Address = 24
 DataOut = 23
-iteration = 0
 
 class state:
 	def __init__ (self, state_name, sensor_values):
@@ -27,7 +26,9 @@ class TRSensor(object):
 		self.calibratedMin = [0] * self.numSensors
 		self.calibratedMax = [1023] * self.numSensors
 		self.last_value = 0
-		
+
+		self.iteration = 0
+
 	"""
 	Reads the sensor values into an array. There *MUST* be space
 	for as many values as there were sensors specified in the constructor.
@@ -153,9 +154,9 @@ class TRSensor(object):
 	def readLine(self, white_line = 0):
 
 		sensor_values = self.readCalibrated()
-		if iteration == 100:
+		if self.iteration == 100:
 			state_history.append(state("onTrack", sensor_values))
-			iteration = 0
+			self.iteration = 0
 		avg = 0
 		sum = 0
 		on_line = 0
