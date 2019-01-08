@@ -1,5 +1,5 @@
 import unittest
-import Infrared_Line_Tracking
+import TRSensor as TRSensor
 
 
 class Infrared_Line_Tracking_Test(unittest.TestCase):
@@ -7,19 +7,19 @@ class Infrared_Line_Tracking_Test(unittest.TestCase):
         pass
 
     def test_AnalogRead(self):
-        TR = Infrared_Line_Tracking.TRSensor()
+        TR = TRSensor.TRSensor()
         TR.AnalogRead()
 
     def test_calibrate(self):
-        TR = Infrared_Line_Tracking.TRSensor()
+        TR = TRSensor.TRSensor()
         TR.calibrate()
 
     def test_readCalibrated(self):
-        TR = Infrared_Line_Tracking.TRSensor()
+        TR = TRSensor.TRSensor()
         TR.readCalibrated()
 
     def test_readLine(self):
-        TR = Infrared_Line_Tracking.TRSensor()
+        TR = TRSensor.TRSensor()
         TR.readLine()
 
 

@@ -8,6 +8,16 @@ PUD_UP = 0
 LOW = 0
 HIGH = 1
 
+class PWM:
+    def __init__(self, ena, val):
+        pass
+
+    def start(self, val):
+        pass
+
+    def ChangeDutyCycle(self,val):
+        pass
+
 def setmode(mode):
     pass
 

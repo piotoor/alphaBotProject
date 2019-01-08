@@ -1,4 +1,4 @@
-import RPi.GPIO as GPIO
+from RPi import RPi as GPIO
 import time
 
 class AlphaBot(object):
