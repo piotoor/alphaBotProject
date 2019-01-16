@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
-from RPi import RPi as GPIO
+import RPi.GPIO as GPIO
 import time
 import pid
 from TRSensor import TRSensor
