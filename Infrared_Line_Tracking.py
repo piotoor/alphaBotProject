@@ -27,14 +27,14 @@ if __name__ == '__main__':
 	print("Line follow Example")
 	time.sleep(0.5)
 	for i in range(0,400):
-		TR.calibrate()
+		TR.calibrate(TR.AnalogRead())
 		print (i)
 	print(TR.calibratedMin)
 	print(TR.calibratedMax)
 	time.sleep(0.5)	
 	Ab.backward()
 	while True:
-		position = TR.readLine()
+		position = TR.readLine(TR.AnalogRead())
 		#x+=1
 		#print(position)
 		

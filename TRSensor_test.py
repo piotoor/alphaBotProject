@@ -11,16 +11,19 @@ class TRSensor_Test(unittest.TestCase):
         TR.AnalogRead()
 
     def test_calibrate(self):
+        sensor_values = [ 0, 0, 0, 0, 0]
         TR = TRSensor.TRSensor()
-        TR.calibrate()
+        TR.calibrate(sensor_values)
 
     def test_readCalibrated(self):
+        sensor_values = [0, 0, 0, 0, 0]
         TR = TRSensor.TRSensor()
-        TR.readCalibrated()
+        TR.readCalibrated(sensor_values)
 
     def test_readLine(self):
+        sensor_values = [0, 0, 0, 0, 0]
         TR = TRSensor.TRSensor()
-        TR.readLine()
+        TR.readLine(sensor_values)
 
 
 

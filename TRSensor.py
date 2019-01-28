@@ -1,14 +1,9 @@
 import RPi.GPIO as GPIO
-
+from States import state
 import collections
 
 
 state_history = collections.deque(maxlen=100)
-
-class state:
-    def __init__(self, state_name, sensor_values):
-        self.state_name = state_name
-        self.sensor_values = sensor_values
 
 
 class TRSensor(object):
@@ -80,12 +75,10 @@ class TRSensor(object):
     and used for the readCalibrated() method.
     """
 
-    def calibrate(self):
+    def calibrate(self, sensor_values):
         max_sensor_values = [0] * self.numSensors
         min_sensor_values = [0] * self.numSensors
         for j in range(0, 10):
-
-            sensor_values = self.AnalogRead()
 
             for i in range(0, self.numSensors):
 
@@ -112,10 +105,9 @@ class TRSensor(object):
     sensors are accounted for automatically.
     """
 
-    def readCalibrated(self):
+    def readCalibrated(self, sensor_values):
         value = 0
         # read the needed values
-        sensor_values = self.AnalogRead()
 
         for i in range(0, self.numSensors):
 
@@ -156,9 +148,9 @@ class TRSensor(object):
     before the averaging.
     """
 
-    def readLine(self, white_line=0):
+    def readLine(self, sensor_values, white_line=0):
 
-        sensor_values = self.readCalibrated()
+        sensor_values = self.readCalibrated(sensor_values)
         if self.iteration == 100:
             state_history.append(state("onTrack", sensor_values))
             self.iteration = 0
