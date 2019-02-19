@@ -16,6 +16,7 @@ class car
     protected:
         sf::Sprite* sprite;
         float d;
+        float dir;
 
     private:
 };

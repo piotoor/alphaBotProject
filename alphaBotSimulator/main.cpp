@@ -24,8 +24,10 @@ int main()
                 window.close();
         }
 
+        // method handleEvents()
         c.onKeyPressed();
         window.clear();
+        // method drawObjects etc
         window.draw(*c.getSprite());
         window.display();
     }
