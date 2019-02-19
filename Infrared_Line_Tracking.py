@@ -5,12 +5,6 @@ import time
 import pid
 from TRSensor import TRSensor
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
-GPIO.setup(TRSensor.Clock,GPIO.OUT)
-GPIO.setup(TRSensor.Address,GPIO.OUT)
-GPIO.setup(TRSensor.CS,GPIO.OUT)
-GPIO.setup(TRSensor.DataOut,GPIO.IN,GPIO.PUD_UP)
 
 # Simple example prints accel/mag data once per second:
 if __name__ == '__main__':

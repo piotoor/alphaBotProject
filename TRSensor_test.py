@@ -1,7 +1,6 @@
 import unittest
 import TRSensor as TRSensor
 
-
 class TRSensor_Test(unittest.TestCase):
     def test_dummy(self):
         pass

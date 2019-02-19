@@ -17,6 +17,12 @@ class TRSensor(object):
     def __init__(self, numSensors=5):
 
 
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)
+        GPIO.setup(TRSensor.Clock, GPIO.OUT)
+        GPIO.setup(TRSensor.Address, GPIO.OUT)
+        GPIO.setup(TRSensor.CS, GPIO.OUT)
+        GPIO.setup(TRSensor.DataOut, GPIO.IN, GPIO.PUD_UP)
 
         self.numSensors = numSensors
         self.calibratedMin = [0] * self.numSensors
