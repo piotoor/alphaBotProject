@@ -39,38 +39,41 @@ class InfraredLineTracker:
 
 		while True:
 			position = self.TR.readLine(self.TR.AnalogRead())
-			# x+=1
-			# print(position)
-
-			# # The "proportional" term should be 0 when we are on the line.
-			# proportional = position - 2000
-			#
-			# # Compute the derivative (change) and integral (sum) of the position.
-			# derivative = proportional - last_proportional
-			# integral += proportional
-			#
-			# # Remember the last position.
-			# last_proportional = proportional
-			#
-			'''
-			// Compute the difference between the two motor power settings,
-			// m1 - m2.  If this is a positive number the robot will turn
-			// to the right.  If it is a negative number, the robot will
-			// turn to the left, and the magnitude of the number determines
-			// the sharpness of the turn.  You can adjust the constants by which
-			// the proportional, integral, and derivative terms are multiplied to
-			// improve performance.
-			'''
-			# power_difference = proportional/25 + derivative/100 #+ integral/1000;
-			pidObj = pid.pid()
-
-			power_difference = pidObj.calculateDifference(position, self.proportionalCoefficient, self.derivativeCoefficient,
-														  self.integralCoefficient)
-
-			pwmaPower, pwmbPower = self.calculateNewPower(position, power_difference)
+			pwmaPower, pwmbPower = self.calculatePowerUpdate(position)
 
 			self.Ab.setPWMB(pwmbPower)
 			self.Ab.setPWMA(pwmaPower)
+
+
+	def calculatePowerUpdate(self, position):
+		# x+=1
+		# print(position)
+		# # The "proportional" term should be 0 when we are on the line.
+		# proportional = position - 2000
+		#
+		# # Compute the derivative (change) and integral (sum) of the position.
+		# derivative = proportional - last_proportional
+		# integral += proportional
+		#
+		# # Remember the last position.
+		# last_proportional = proportional
+		#
+		'''
+                    // Compute the difference between the two motor power settings,
+                    // m1 - m2.  If this is a positive number the robot will turn
+                    // to the right.  If it is a negative number, the robot will
+                    // turn to the left, and the magnitude of the number determines
+                    // the sharpness of the turn.  You can adjust the constants by which
+                    // the proportional, integral, and derivative terms are multiplied to
+                    // improve performance.
+                    '''
+		# power_difference = proportional/25 + derivative/100 #+ integral/1000;
+		pidObj = pid.pid()
+		power_difference = pidObj.calculateDifference(position, self.proportionalCoefficient,
+													  self.derivativeCoefficient,
+													  self.integralCoefficient)
+		pwmaPower, pwmbPower = self.calculateNewPower(position, power_difference)
+		return pwmaPower, pwmbPower
 
 	def calculateNewPower(self, position, power_difference):
 		if power_difference > self.maximum:
