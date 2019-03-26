@@ -33,6 +33,8 @@ class TRSensor(object):
         self.calibratedMax = [1023] * self.numSensors
         self.last_value = 0
 
+        self.LINE_THRESHOLD = 200
+
         self.iteration = 0
 
         self.currentState = STATE.outOfTrack
@@ -165,13 +167,15 @@ class TRSensor(object):
 
     def readLine(self, sensor_values, white_line=0):
 
-        self.currentState = STATE.onTrack
+        self.currentState = STATE.onTrack   #TODO TEMP
 
         sensor_values = self.readCalibrated(sensor_values)
 
-        if (self.iteration + 1) == self.STATE_HISTORY_PERIOD:
+        if (self.iteration + 1) % self.STATE_HISTORY_PERIOD == 0:
             self.state_history.append(state(self.currentState, sensor_values))
-            self.iteration = 0
+
+        self.iteration = self.iteration+1
+
 
         avg = 0
         sum = 0
@@ -181,7 +185,7 @@ class TRSensor(object):
             if white_line:
                 value = 1000 - value
             # keep track of whether we see the line at all
-            if value > 200:
+            if value > self.LINE_THRESHOLD:
                 on_line = 1
 
             # only average in values that are above a noise threshold
@@ -190,6 +194,7 @@ class TRSensor(object):
                 sum += value  # this is for the denominator
 
         if on_line != 1:
+
             # If it last read to the left of center, return 0.
             if self.last_value < (self.numSensors - 1) * 1000 / 2:
                 # print("left")
@@ -201,6 +206,7 @@ class TRSensor(object):
                 return (self.numSensors - 1) * 1000
 
         self.last_value = avg / sum
+
 
         return self.last_value
 11
