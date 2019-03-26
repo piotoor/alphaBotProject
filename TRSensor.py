@@ -4,7 +4,10 @@ import collections
 
 from enum import Enum
 
-STATE = Enum('State', 'outOfTrack onTrack')
+
+class STATE(Enum):
+    outOfTrack = 0
+    onTrack = 1
 
 class TRSensor(object):
 
