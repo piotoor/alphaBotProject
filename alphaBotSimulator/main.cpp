@@ -6,7 +6,6 @@
 int width = 1200;
 int height = 800;
 
-
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(width, height), "SFML works!");
@@ -14,6 +13,7 @@ int main()
 
     assets::loadTextures("assets");
     car c;
+
 
     while (window.isOpen())
     {
@@ -28,6 +28,7 @@ int main()
         c.onKeyPressed();
         window.clear();
         // method drawObjects etc
+        //window.draw(*t.getSprite());
         window.draw(*c.getSprite());
         window.display();
     }
