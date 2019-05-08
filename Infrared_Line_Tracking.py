@@ -23,19 +23,21 @@ class InfraredLineTracker:
 		self.Ab = AlphaBot()
 		self.Ab.stop()
 
-	def run(self):
+	def run(self, numberOfIterations=-1):
 		print("Line follow Example")
 		time.sleep(0.5)
 
 		for i in range(0, self.calibrationIterationCount):
 			self.TR.calibrate(self.TR.AnalogRead())
-			print (i)
+			#print (i)
 
 		print(self.TR.calibratedMin)
 		print(self.TR.calibratedMax)
 		time.sleep(0.5)
 
 		self.Ab.backward()
+
+		iterationCount = numberOfIterations
 
 		while True:
 			position = self.TR.readLine(self.TR.AnalogRead())
@@ -44,6 +46,11 @@ class InfraredLineTracker:
 			self.Ab.setPWMB(pwmbPower)
 			self.Ab.setPWMA(pwmaPower)
 
+			iterationCount = iterationCount-1
+
+			#when numberOfIterations == -1 then run indefinitely
+			if iterationCount<0 and numberOfIterations != -1:
+				break
 
 	def calculatePowerUpdate(self, position):
 		# x+=1

@@ -16,5 +16,10 @@ class TRSensor_Test(unittest.TestCase):
         tracker = InfraredLineTracker()
         tracker.calculatePowerUpdate(1)
 
+    def test_run(self):
+        #TODO expand test
+        tracker = InfraredLineTracker()
+        tracker.run(10)
+
 if __name__ == '__main__':
     unittest.main()

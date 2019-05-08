@@ -15,4 +15,5 @@ class pid:
         # Remember the last position.
         self.last_proportional = proportional
 
-        return proportional / 25 + derivative / 100  # + integral/1000
+        return proportional / proportionalCoefficient + derivative / derivativeCoefficient  # + integral/1000
+        #return proportional / 25 + derivative / 100  # + integral/1000
