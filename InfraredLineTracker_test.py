@@ -9,7 +9,7 @@ class TRSensor_Test(unittest.TestCase):
     def test_calculateNewPower(self):
         #TODO expand test
         tracker = InfraredLineTracker()
-        tracker.calculateNewPower(1,1)
+        tracker.calculateNewPower(1)
 
     def test_calculatePowerUpdate(self):
         #TODO expand test

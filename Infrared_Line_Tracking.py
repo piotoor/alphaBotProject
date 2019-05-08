@@ -79,15 +79,17 @@ class InfraredLineTracker:
 		power_difference = pidObj.calculateDifference(position, self.proportionalCoefficient,
 													  self.derivativeCoefficient,
 													  self.integralCoefficient)
-		pwmaPower, pwmbPower = self.calculateNewPower(position, power_difference)
+		pwmaPower, pwmbPower = self.calculateNewPower( power_difference)
+		print(position, power_difference)
+
 		return pwmaPower, pwmbPower
 
-	def calculateNewPower(self, position, power_difference):
+	def calculateNewPower(self, power_difference):
 		if power_difference > self.maximum:
 			power_difference = self.maximum
 		if power_difference < - self.maximum:
 			power_difference = - self.maximum
-		print(position, power_difference)
+		#print(position, power_difference)
 		if power_difference < 0:
 			pwmbPower = self.maximum + power_difference
 			pwmaPower = self.maximum
