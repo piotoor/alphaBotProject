@@ -7,7 +7,7 @@ car::car()
     sprite = new sf::Sprite;
     sprite->setTexture(*assets::getTexture("car"));
     sprite->setOrigin(assets::getTexture("car")->getSize().x / 2.0, assets::getTexture("car")->getSize().y / 2.0);
-    sprite->setScale(0.1f, 0.1f);
+    sprite->setScale(0.2f, 0.2f);
     d = 4.2f;
     dir = 1.0f;
 }
