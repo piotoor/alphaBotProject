@@ -2,9 +2,12 @@ import RPi.GPIO as GPIO
 from States import state
 import collections
 
+from enum import Enum
 
-state_history = collections.deque(maxlen=100)
 
+class STATE(Enum):
+    outOfTrack = 0
+    onTrack = 1
 
 class TRSensor(object):
 
@@ -14,16 +17,30 @@ class TRSensor(object):
     Address = 24
     DataOut = 23
 
-    def __init__(self, numSensors=5):
+
+    def __init__(self, numSensors=5, stateHistoryPeriod = 100):
 
 
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)
+        GPIO.setup(TRSensor.Clock, GPIO.OUT)
+        GPIO.setup(TRSensor.Address, GPIO.OUT)
+        GPIO.setup(TRSensor.CS, GPIO.OUT)
+        GPIO.setup(TRSensor.DataOut, GPIO.IN, GPIO.PUD_UP)
 
         self.numSensors = numSensors
         self.calibratedMin = [0] * self.numSensors
         self.calibratedMax = [1023] * self.numSensors
         self.last_value = 0
 
+        self.LINE_THRESHOLD = 200
+
         self.iteration = 0
+
+        self.currentState = STATE.outOfTrack
+
+        self.STATE_HISTORY_PERIOD = stateHistoryPeriod
+        self.state_history = collections.deque(maxlen=100)
 
     """
     Reads the sensor values into an array. There *MUST* be space
@@ -150,10 +167,16 @@ class TRSensor(object):
 
     def readLine(self, sensor_values, white_line=0):
 
+        self.currentState = STATE.onTrack   #TODO TEMP
+
         sensor_values = self.readCalibrated(sensor_values)
-        if self.iteration == 100:
-            state_history.append(state("onTrack", sensor_values))
-            self.iteration = 0
+
+        if (self.iteration + 1) % self.STATE_HISTORY_PERIOD == 0:
+            self.state_history.append(state(self.currentState, sensor_values))
+
+        self.iteration = self.iteration+1
+
+
         avg = 0
         sum = 0
         on_line = 0
@@ -162,7 +185,7 @@ class TRSensor(object):
             if white_line:
                 value = 1000 - value
             # keep track of whether we see the line at all
-            if value > 200:
+            if value > self.LINE_THRESHOLD:
                 on_line = 1
 
             # only average in values that are above a noise threshold
@@ -171,6 +194,7 @@ class TRSensor(object):
                 sum += value  # this is for the denominator
 
         if on_line != 1:
+
             # If it last read to the left of center, return 0.
             if self.last_value < (self.numSensors - 1) * 1000 / 2:
                 # print("left")
@@ -182,6 +206,7 @@ class TRSensor(object):
                 return (self.numSensors - 1) * 1000
 
         self.last_value = avg / sum
+
 
         return self.last_value
 11
