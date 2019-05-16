@@ -41,5 +41,26 @@ class TRSensor_Test(unittest.TestCase):
         TR.readLine(sensor_values)
         self.assertEqual(len(TR.state_history), 1)
 
+    def test_isOutsideOfTrack(self):
+
+        TR = TRSensor.TRSensor()
+        TR.LINE_THRESHOLD = 200
+
+        sensor_values = [100, 100, 100, 100, 100]
+        self.assertTrue(TR.isOutsideOfTrack(sensor_values))
+
+        sensor_values = [0, 0, 0, 0, 0]
+        self.assertTrue(TR.isOutsideOfTrack(sensor_values))
+
+        sensor_values = [300, 100, 100, 100, 100]
+        self.assertFalse(TR.isOutsideOfTrack(sensor_values))
+
+        sensor_values = [100, 300, 100, 100, 100]
+        self.assertFalse(TR.isOutsideOfTrack(sensor_values))
+
+        sensor_values = [500, 500, 500, 500, 500]
+        self.assertFalse(TR.isOutsideOfTrack(sensor_values))
+
+
 if __name__ == '__main__':
     unittest.main()

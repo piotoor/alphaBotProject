@@ -208,5 +208,13 @@ class TRSensor(object):
         self.last_value = avg / sum
 
 
+        #check if we are outside of track (all sensor vals below threshold)
+        if self.isOutsideOfTrack(sensor_values):
+            self.currentState = STATE.outOfTrack
+
         return self.last_value
-11
+
+
+    def isOutsideOfTrack(self, sensor_values):
+        # https://stackoverflow.com/questions/20229822/check-if-all-values-in-list-are-greater-than-a-certain-number
+        return all(sensor_value < self.LINE_THRESHOLD for sensor_value in sensor_values)
