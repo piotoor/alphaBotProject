@@ -5,7 +5,7 @@ import time
 import pid
 from TRSensor import TRSensor
 from AlphaBot import AlphaBot
-
+from TRSensor import STATE
 
 class InfraredLineTracker:
 	def __init__(self):
@@ -51,6 +51,11 @@ class InfraredLineTracker:
 			#when numberOfIterations == -1 then run indefinitely
 			if iterationCount<0 and numberOfIterations != -1:
 				break
+
+			if self.TR.currentState == STATE.outOfTrack:
+                #try to get back based on history
+				pass
+
 
 	def calculatePowerUpdate(self, position):
 		# x+=1
