@@ -23,13 +23,54 @@ class InfraredLineTracker:
 		self.Ab = AlphaBot()
 		self.Ab.stop()
 
+		#TEMP test route correction algorithm
+		self.testRunWithTestCorrection = False
+
 	def run(self, numberOfIterations=-1):
+
+		if self.testRunWithTestCorrection:
+			self.runWithRouteCorrection(numberOfIterations)
+		else:
+
+			print("Line follow Example")
+			time.sleep(0.5)
+
+			for i in range(0, self.calibrationIterationCount):
+				self.TR.calibrate(self.TR.AnalogRead())
+				#print (i)
+
+			print(self.TR.calibratedMin)
+			print(self.TR.calibratedMax)
+			time.sleep(0.5)
+
+			self.Ab.backward()
+
+			iterationCount = numberOfIterations
+
+			while True:
+				position = self.TR.readLine(self.TR.AnalogRead())
+				pwmaPower, pwmbPower = self.calculatePowerUpdate(position)
+
+				self.Ab.setPWMB(pwmbPower)
+				self.Ab.setPWMA(pwmaPower)
+
+				iterationCount = iterationCount-1
+
+				#when numberOfIterations == -1 then run indefinitely
+				if iterationCount<0 and numberOfIterations != -1:
+					break
+
+				if self.TR.currentState == STATE.outOfTrack:
+					#try to get back based on history
+					pass
+
+	def runWithRouteCorrection(self, numberOfIterations=-1):
 		print("Line follow Example")
 		time.sleep(0.5)
 
 		for i in range(0, self.calibrationIterationCount):
 			self.TR.calibrate(self.TR.AnalogRead())
-			#print (i)
+		# print (i)
 
 		print(self.TR.calibratedMin)
 		print(self.TR.calibratedMax)
@@ -46,16 +87,15 @@ class InfraredLineTracker:
 			self.Ab.setPWMB(pwmbPower)
 			self.Ab.setPWMA(pwmaPower)
 
-			iterationCount = iterationCount-1
+			iterationCount = iterationCount - 1
 
-			#when numberOfIterations == -1 then run indefinitely
-			if iterationCount<0 and numberOfIterations != -1:
+			# when numberOfIterations == -1 then run indefinitely
+			if iterationCount < 0 and numberOfIterations != -1:
 				break
 
 			if self.TR.currentState == STATE.outOfTrack:
-                #try to get back based on history
+				# try to get back based on history
 				pass
-
 
 	def calculatePowerUpdate(self, position):
 		# x+=1
@@ -109,3 +149,4 @@ if __name__ == '__main__':
 
 	tracker = InfraredLineTracker()
 	tracker.run()
+
