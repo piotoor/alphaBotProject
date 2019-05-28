@@ -211,6 +211,8 @@ class TRSensor(object):
         #check if we are outside of track (all sensor vals below threshold)
         if self.isOutsideOfTrack(sensor_values):
             self.currentState = STATE.outOfTrack
+        else:
+            self.currentState = STATE.onTrack
 
         return self.last_value
 

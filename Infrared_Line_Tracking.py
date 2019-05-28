@@ -82,10 +82,6 @@ class InfraredLineTracker:
 
 		while True:
 			position = self.TR.readLine(self.TR.AnalogRead())
-			pwmaPower, pwmbPower = self.calculatePowerUpdate(position)
-
-			self.Ab.setPWMB(pwmbPower)
-			self.Ab.setPWMA(pwmaPower)
 
 			iterationCount = iterationCount - 1
 
@@ -95,7 +91,21 @@ class InfraredLineTracker:
 
 			if self.TR.currentState == STATE.outOfTrack:
 				# try to get back based on history
+
+				#TODO: set the power properly.
+				#Magnitude the same as before, but reversed?
+				pwmaPower, pwmbPower = 0
+
+				self.Ab.setPWMB(pwmbPower)
+				self.Ab.setPWMA(pwmaPower)
+
 				pass
+			else:
+				pwmaPower, pwmbPower = self.calculatePowerUpdate(position)
+
+				self.Ab.setPWMB(pwmbPower)
+				self.Ab.setPWMA(pwmaPower)
+
 
 	def calculatePowerUpdate(self, position):
 		# x+=1
