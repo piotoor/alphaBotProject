@@ -94,7 +94,8 @@ class InfraredLineTracker:
 
 				#TODO: set the power properly.
 				#Magnitude the same as before, but reversed?
-				pwmaPower, pwmbPower = 0
+				pwmaPower = -self.Ab.PMMACurrentValue
+				pwmbPower = -self.Ab.PMMBCurrentValue
 
 				self.Ab.setPWMB(pwmbPower)
 				self.Ab.setPWMA(pwmaPower)
