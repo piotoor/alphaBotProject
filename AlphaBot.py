@@ -25,6 +25,10 @@ class AlphaBot(object):
 		self.PWMA.start(50)
 		self.PWMB.start(50)
 
+		self.PMMACurrentValue = 0
+		self.PMMBCurrentValue = 0
+
+
 	def forward(self):
 		GPIO.output(self.IN1,GPIO.HIGH)
 		GPIO.output(self.IN2,GPIO.LOW)
@@ -56,9 +60,11 @@ class AlphaBot(object):
 		GPIO.output(self.IN4,GPIO.LOW)
 		
 	def setPWMA(self,value):
+		self.PMMACurrentValue = value
 		self.PWMA.ChangeDutyCycle(value)
 
 	def setPWMB(self,value):
+		self.PMMBCurrentValue = value
 		self.PWMB.ChangeDutyCycle(value)	
 		
 	def setMotor(self, left, right):

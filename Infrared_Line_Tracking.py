@@ -5,7 +5,7 @@ import time
 import pid
 from TRSensor import TRSensor
 from AlphaBot import AlphaBot
-
+from TRSensor import STATE
 
 class InfraredLineTracker:
 	def __init__(self):
@@ -23,13 +23,54 @@ class InfraredLineTracker:
 		self.Ab = AlphaBot()
 		self.Ab.stop()
 
-	def run(self):
+		#TEMP test route correction algorithm
+		self.testRunWithTestCorrection = False
+
+	def run(self, numberOfIterations=-1):
+
+		if self.testRunWithTestCorrection:
+			self.runWithRouteCorrection(numberOfIterations)
+		else:
+
+			print("Line follow Example")
+			time.sleep(0.5)
+
+			for i in range(0, self.calibrationIterationCount):
+				self.TR.calibrate(self.TR.AnalogRead())
+				#print (i)
+
+			print(self.TR.calibratedMin)
+			print(self.TR.calibratedMax)
+			time.sleep(0.5)
+
+			self.Ab.backward()
+
+			iterationCount = numberOfIterations
+
+			while True:
+				position = self.TR.readLine(self.TR.AnalogRead())
+				pwmaPower, pwmbPower = self.calculatePowerUpdate(position)
+
+				self.Ab.setPWMB(pwmbPower)
+				self.Ab.setPWMA(pwmaPower)
+
+				iterationCount = iterationCount-1
+
+				#when numberOfIterations == -1 then run indefinitely
+				if iterationCount<0 and numberOfIterations != -1:
+					break
+
+				if self.TR.currentState == STATE.outOfTrack:
+					#try to get back based on history
+					pass
+
+	def runWithRouteCorrection(self, numberOfIterations=-1):
 		print("Line follow Example")
 		time.sleep(0.5)
 
 		for i in range(0, self.calibrationIterationCount):
 			self.TR.calibrate(self.TR.AnalogRead())
-			print (i)
+		# print (i)
 
 		print(self.TR.calibratedMin)
 		print(self.TR.calibratedMax)
@@ -37,12 +78,34 @@ class InfraredLineTracker:
 
 		self.Ab.backward()
 
+		iterationCount = numberOfIterations
+
 		while True:
 			position = self.TR.readLine(self.TR.AnalogRead())
-			pwmaPower, pwmbPower = self.calculatePowerUpdate(position)
 
-			self.Ab.setPWMB(pwmbPower)
-			self.Ab.setPWMA(pwmaPower)
+			iterationCount = iterationCount - 1
+
+			# when numberOfIterations == -1 then run indefinitely
+			if iterationCount < 0 and numberOfIterations != -1:
+				break
+
+			if self.TR.currentState == STATE.outOfTrack:
+				# try to get back based on history
+
+				#TODO: set the power properly.
+				#Magnitude the same as before, but reversed?
+				pwmaPower = -self.Ab.PMMACurrentValue
+				pwmbPower = -self.Ab.PMMBCurrentValue
+
+				self.Ab.setPWMB(pwmbPower)
+				self.Ab.setPWMA(pwmaPower)
+
+				pass
+			else:
+				pwmaPower, pwmbPower = self.calculatePowerUpdate(position)
+
+				self.Ab.setPWMB(pwmbPower)
+				self.Ab.setPWMA(pwmaPower)
 
 
 	def calculatePowerUpdate(self, position):
@@ -72,15 +135,17 @@ class InfraredLineTracker:
 		power_difference = pidObj.calculateDifference(position, self.proportionalCoefficient,
 													  self.derivativeCoefficient,
 													  self.integralCoefficient)
-		pwmaPower, pwmbPower = self.calculateNewPower(position, power_difference)
+		pwmaPower, pwmbPower = self.calculateNewPower( power_difference)
+		print(position, power_difference)
+
 		return pwmaPower, pwmbPower
 
-	def calculateNewPower(self, position, power_difference):
+	def calculateNewPower(self, power_difference):
 		if power_difference > self.maximum:
 			power_difference = self.maximum
 		if power_difference < - self.maximum:
 			power_difference = - self.maximum
-		print(position, power_difference)
+		#print(position, power_difference)
 		if power_difference < 0:
 			pwmbPower = self.maximum + power_difference
 			pwmaPower = self.maximum
@@ -95,3 +160,4 @@ if __name__ == '__main__':
 
 	tracker = InfraredLineTracker()
 	tracker.run()
+
