@@ -15,7 +15,6 @@ int main()
 
     assets::loadTextures("assets");
     car c;
-    //SingleCurveGenerator scg(20, {make_pair(11.21, 21.324), make_pair(1.23, 0.11), make_pair(30.2, 11.0), make_pair(123.33, 232.22)});
     int segm = 80;
     SingleCurveGenerator scg(segm,
     {
@@ -56,12 +55,8 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-
-        // method handleEvents()
         c.onKeyPressed();
         window.clear();
-        // method drawObjects etc
-        //window.draw(*t.getSprite());
         window.draw(vertices);
         window.draw(*c.getSprite());
         window.display();

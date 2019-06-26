@@ -54,11 +54,9 @@ int SingleCurveGenerator:: Newton(int k)
 double SingleCurveGenerator:: Bernstein(int i, double t)
 {
     // Newton(n,i) * (t**i) * (1.0-t)**(n-i)
-    //cout << Newton(i) << endl;
     return (double)Newton(i) * pow(t, (double)i) * pow(1.0 - t, (double)(order - i));
 }
 
-//vector<Point> controlPoints;
 Point SingleCurveGenerator:: p(double t)
 {
     double x = 0.0;
@@ -93,32 +91,20 @@ vector<Point> SingleCurveGenerator:: Bezier2DTriangleStrip(double d)
     {
         if(i == 0)
         {
-            // push from line
             res.push_back(line[i]);
-            // gen perp
-
             Point perp = AddOffsetToVector(computePerpendicularVector(line[i + 1] - line[i], d), line[i]);
-            //cout << "perp = [" << perp.first << "; " << perp.second << "]" << endl;
-            // push perp
-            //res.push_back({perp.first + line[i].first, perp.second + line[i].second});
             res.push_back(perp);
         }
         else if(i == line.size() - 1)
         {
-            // push from line
             res.push_back(line[i]);
-            // gen perp
             Point perp = AddOffsetToVector(computePerpendicularVector(line[i] - line[i - 1], d), line[i]);
-            // push perp
             res.push_back(perp);
         }
         else
         {
-            // push from line
             res.push_back(line[i]);
-            // gen perp
             Point perp = AddOffsetToVector(computePerpendicularVector(line[i + 1] - line[i - 1], d), line[i]);
-            // push perp
             res.push_back(perp);
         }
 
@@ -126,8 +112,6 @@ vector<Point> SingleCurveGenerator:: Bezier2DTriangleStrip(double d)
     }
     return res;
 }
-
-
 
 Point SingleCurveGenerator:: computePerpendicularVector(const Point &vect, const float &distance)
 {
