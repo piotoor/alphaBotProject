@@ -90,19 +90,20 @@ vector<Point> SingleCurveGenerator:: Bezier2DTriangleStrip(double d)
         if(i == 0)
         {
             res.push_back(line[i]);
-            Point perp = AddOffsetToVector(computePerpendicularVector(line[i + 1] - line[i], d), line[i]);
+            //Point perp = AddOffsetToVector(computePerpendicularVector(line[i + 1] - line[i], d), line[i]);
+            Point perp = computePerpendicularVector(line[i + 1] - line[i], d) + line[i];
             res.push_back(perp);
         }
         else if(i == line.size() - 1)
         {
             res.push_back(line[i]);
-            Point perp = AddOffsetToVector(computePerpendicularVector(line[i] - line[i - 1], d), line[i]);
+            Point perp = computePerpendicularVector(line[i] - line[i - 1], d) + line[i];
             res.push_back(perp);
         }
         else
         {
             res.push_back(line[i]);
-            Point perp = AddOffsetToVector(computePerpendicularVector(line[i + 1] - line[i - 1], d), line[i]);
+            Point perp = computePerpendicularVector(line[i + 1] - line[i - 1], d) + line[i];
             res.push_back(perp);
         }
 
@@ -132,12 +133,4 @@ Point SingleCurveGenerator:: computePerpendicularVector(const Point &vect, const
     res.second = unit.second * distance;
     return res;
     // return vector perpendicular anchored at (0, 0). Will get moved based on the middle point
-}
-
-
-Point SingleCurveGenerator:: AddOffsetToVector(Point vect, const Point &offset)
-{
-    vect.first += offset.first;
-    vect.second += offset.second;
-    return vect;
 }

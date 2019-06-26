@@ -33,7 +33,6 @@ class SingleCurveGenerator
         size_t order;
 
         Point computePerpendicularVector(const Point &vect, const float &distance);
-        Point AddOffsetToVector(Point vect, const Point &offset);
 };
 
 #endif // MATHHELPER_H
