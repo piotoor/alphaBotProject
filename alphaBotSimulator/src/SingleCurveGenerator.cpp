@@ -18,7 +18,7 @@ std::pair<T,U> operator-(const std::pair<T,U> & l,const std::pair<T,U> & r)
 SingleCurveGenerator:: SingleCurveGenerator(size_t numOfSegments, const vector<Point>& controlPoints):numOfSegments(numOfSegments),
     controlPoints(controlPoints.begin(), controlPoints.end())
 {
-    for(int i = 0; i < controlPoints.size(); i++)
+    for(size_t i = 0; i < controlPoints.size(); i++)
     {
         cout << "[" << controlPoints[i].first << "; " << controlPoints[i].second << "] ";
     }
@@ -87,7 +87,7 @@ vector<Point> SingleCurveGenerator:: Bezier2DTriangleStrip(double d)
     vector<Point> res;
     vector<Point> line = Bezier2D();
 
-    for(int i = 0; i < line.size() ; i++)
+    for(size_t i = 0; i < line.size() ; i++)
     {
         if(i == 0)
         {

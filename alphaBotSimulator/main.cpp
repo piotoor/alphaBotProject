@@ -34,7 +34,7 @@ int main()
     cout << "Bezier2D(): " << endl;
     cout << "size = " << res.size() << endl;
     cout << "segments = " << segm << endl;
-    for(int i = 0; i < res.size(); i++)
+    for(size_t i = 0; i < res.size(); i++)
     {
         if(i % 5 == 0)
         {
