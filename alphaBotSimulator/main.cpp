@@ -16,7 +16,7 @@ int main()
     assets::loadTextures("assets");
     car c;
     //SingleCurveGenerator scg(20, {make_pair(11.21, 21.324), make_pair(1.23, 0.11), make_pair(30.2, 11.0), make_pair(123.33, 232.22)});
-    int segm = 3000;
+    int segm = 80;
     SingleCurveGenerator scg(segm,
     {
         make_pair(110.21, 210.324),
@@ -24,15 +24,25 @@ int main()
         make_pair(200.2, 110.0),
         make_pair(230.33, 320.22),
         make_pair(430.22, 573.75),
-        make_pair(830.22, 773.75)
+        make_pair(830.22, 773.75),
+        make_pair(730.22, 473.75),
+        make_pair(430.22, 173.75)
     });
-    vector<pair<double, double>> res = scg.Bezier2D();
-    sf::VertexArray vertices(sf::Points, res.size());
+    vector<pair<double, double>> res = scg.Bezier2DTriangleStrip(30.0f);//Bezier2D();
+    //sf::VertexArray vertices(sf::Points, res.size());
+    sf::VertexArray vertices(sf::TriangleStrip, res.size());
 
     cout << "Bezier2D(): " << endl;
+    cout << "size = " << res.size() << endl;
+    cout << "segments = " << segm << endl;
     for(int i = 0; i < res.size(); i++)
     {
-        cout << res[i].first << "; " << res[i].second << endl;
+        if(i % 5 == 0)
+        {
+            cout << endl;
+        }
+        cout << i << ":\t" << res[i].first << "; " << res[i].second << endl;
+
         vertices[i].position = sf::Vector2f(res[i].first, res[i].second);
         vertices[i].color = sf::Color::Red;
     }

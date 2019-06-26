@@ -3,7 +3,19 @@
 #include <iostream>
 using namespace std;
 
-SingleCurveGenerator:: SingleCurveGenerator(size_t numOfSegments, const vector<pair<double, double>>& controlPoints):numOfSegments(numOfSegments),
+template <typename T,typename U>
+std::pair<T,U> operator+(const std::pair<T,U> & l,const std::pair<T,U> & r)
+{
+    return {l.first + r.first, l.second + r.second};
+}
+
+template <typename T,typename U>
+std::pair<T,U> operator-(const std::pair<T,U> & l,const std::pair<T,U> & r)
+{
+    return {l.first - r.first, l.second - r.second};
+}
+
+SingleCurveGenerator:: SingleCurveGenerator(size_t numOfSegments, const vector<Point>& controlPoints):numOfSegments(numOfSegments),
     controlPoints(controlPoints.begin(), controlPoints.end())
 {
     for(int i = 0; i < controlPoints.size(); i++)
@@ -46,8 +58,8 @@ double SingleCurveGenerator:: Bernstein(int i, double t)
     return (double)Newton(i) * pow(t, (double)i) * pow(1.0 - t, (double)(order - i));
 }
 
-//vector<pair<double, double>> controlPoints;
-pair<double, double> SingleCurveGenerator:: p(double t)
+//vector<Point> controlPoints;
+Point SingleCurveGenerator:: p(double t)
 {
     double x = 0.0;
     double y = 0.0;
@@ -61,9 +73,9 @@ pair<double, double> SingleCurveGenerator:: p(double t)
     return make_pair(x, y);
 }
 
-vector<pair<double, double>> SingleCurveGenerator:: Bezier2D()
+vector<Point> SingleCurveGenerator:: Bezier2D()
 {
-    vector<pair<double, double>> res;
+    vector<Point> res;
     double dt = 1.0 / (double)numOfSegments;
     for(unsigned int i = 0; i < numOfSegments + 1; i++)
     {
@@ -72,3 +84,78 @@ vector<pair<double, double>> SingleCurveGenerator:: Bezier2D()
     return res;
 }
 
+vector<Point> SingleCurveGenerator:: Bezier2DTriangleStrip(double d)
+{
+    vector<Point> res;
+    vector<Point> line = Bezier2D();
+
+    for(int i = 0; i < line.size() ; i++)
+    {
+        if(i == 0)
+        {
+            // push from line
+            res.push_back(line[i]);
+            // gen perp
+
+            Point perp = AddOffsetToVector(computePerpendicularVector(line[i + 1] - line[i], d), line[i]);
+            //cout << "perp = [" << perp.first << "; " << perp.second << "]" << endl;
+            // push perp
+            //res.push_back({perp.first + line[i].first, perp.second + line[i].second});
+            res.push_back(perp);
+        }
+        else if(i == line.size() - 1)
+        {
+            // push from line
+            res.push_back(line[i]);
+            // gen perp
+            Point perp = AddOffsetToVector(computePerpendicularVector(line[i] - line[i - 1], d), line[i]);
+            // push perp
+            res.push_back(perp);
+        }
+        else
+        {
+            // push from line
+            res.push_back(line[i]);
+            // gen perp
+            Point perp = AddOffsetToVector(computePerpendicularVector(line[i + 1] - line[i - 1], d), line[i]);
+            // push perp
+            res.push_back(perp);
+        }
+
+
+    }
+    return res;
+}
+
+
+
+Point SingleCurveGenerator:: computePerpendicularVector(const Point &vect, const float &distance)
+{
+    // vect - vector coords after moving its base to (0, 0)
+    // distance - triangle strip - based line breadth
+    // res - vector perpendicular to vect, anchored ad (0, 0)
+    // unit - unit vector perpendicular to vect
+    Point res;
+    Point unit;
+
+    res.first = vect.second;
+    res.second = -vect.first;
+
+    double len = sqrt(pow(res.first, 2.0) + pow(res.second, 2.0));
+
+    unit.first = res.first / len;
+    unit.second = res.second / len;
+
+    res.first = unit.first * distance;
+    res.second = unit.second * distance;
+    return res;
+    // return vector perpendicular anchored at (0, 0). Will get moved based on the middle point
+}
+
+
+Point SingleCurveGenerator:: AddOffsetToVector(Point vect, const Point &offset)
+{
+    vect.first += offset.first;
+    vect.second += offset.second;
+    return vect;
+}
