@@ -18,11 +18,11 @@ std::pair<T,U> operator-(const std::pair<T,U> & l,const std::pair<T,U> & r)
 SingleCurveGenerator:: SingleCurveGenerator(size_t numOfSegments, const vector<Point>& controlPoints):numOfSegments(numOfSegments),
     controlPoints(controlPoints.begin(), controlPoints.end())
 {
+    cout << "Control points:" << endl;
     for(size_t i = 0; i < controlPoints.size(); i++)
     {
-        cout << "[" << controlPoints[i].first << "; " << controlPoints[i].second << "] ";
+        cout << "[" << controlPoints[i].first << "; " << controlPoints[i].second << "] " << endl;
     }
-    cout << endl;
     this->order = controlPoints.size() - 1;
 }
 
@@ -64,8 +64,6 @@ Point SingleCurveGenerator:: p(double t)
     for(unsigned int i = 0; i < controlPoints.size(); i++)
     {
         x += controlPoints[i].first * Bernstein(i, t);
-
-        cout << "i = " << i << "; t = " << t << "; " << Bernstein(i, t) << endl;
         y += controlPoints[i].second * Bernstein(i, t);
     }
     return make_pair(x, y);

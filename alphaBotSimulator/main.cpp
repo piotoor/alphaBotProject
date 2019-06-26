@@ -31,6 +31,7 @@ int main()
     //sf::VertexArray vertices(sf::Points, res.size());
     sf::VertexArray vertices(sf::TriangleStrip, res.size());
 
+    cout << endl;
     cout << "Bezier2D(): " << endl;
     cout << "size = " << res.size() << endl;
     cout << "segments = " << segm << endl;
