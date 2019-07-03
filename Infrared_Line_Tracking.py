@@ -58,10 +58,12 @@ class InfraredLineTracker:
 
 				#when numberOfIterations == -1 then run indefinitely
 				if iterationCount<0 and numberOfIterations != -1:
+					print("if iterationCount<0 and numberOfIterations != -1:  BREAK")
 					break
 
 				if self.TR.currentState == STATE.outOfTrack:
 					#try to get back based on history
+					print ("if self.TR.currentState == STATE.outOfTrack: IGNORE")
 					pass
 
 	def runWithRouteCorrection(self, numberOfIterations=-1):
@@ -83,6 +85,8 @@ class InfraredLineTracker:
 		while True:
 			position = self.TR.readLine(self.TR.AnalogRead())
 
+			print("runWithRouteCorrection. In while loop")
+
 			iterationCount = iterationCount - 1
 
 			# when numberOfIterations == -1 then run indefinitely
@@ -91,6 +95,8 @@ class InfraredLineTracker:
 
 			if self.TR.currentState == STATE.outOfTrack:
 				# try to get back based on history
+
+				print("runWithRouteCorrection. currentState == STATE.outOfTrack")
 
 				#TODO: set the power properly.
 				#Magnitude the same as before, but reversed?
