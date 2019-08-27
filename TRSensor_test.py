@@ -24,6 +24,15 @@ class TRSensor_Test(unittest.TestCase):
         TR = TRSensor.TRSensor()
         TR.readLine(sensor_values)
 
+    def test_readline_output(self):
+        #TODO - check output of readline() based on specific sensor values input
+
+        sensor_values = [0, 0, 0, 0, 0]
+        TR = TRSensor.TRSensor()
+        output = TR.readLine(sensor_values)
+        self.assertEqual(output, 0)
+
+
     def test_iteration_count(self):
         sensor_values = [0, 0, 0, 0, 0]
         TR = TRSensor.TRSensor()

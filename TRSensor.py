@@ -194,7 +194,7 @@ class TRSensor(object):
                 on_line = 1
 
             # only average in values that are above a noise threshold
-            if value > 50:
+            if value > 50:  #TODO - change to LINE_THRESHOLD?
                 avg += value * (i * 1000)  # this is for the weighted total,
                 sum += value  # this is for the denominator
 
