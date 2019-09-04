@@ -37,10 +37,13 @@ class TRSensor(object):
 
         self.iteration = 0
 
-        self.currentState = STATE.outOfTrack
+        #self.currentState = STATE.outOfTrack
 
         self.STATE_HISTORY_PERIOD = stateHistoryPeriod
         self.state_history = collections.deque(maxlen=100)
+
+        #TODO - temp
+        self.currentState = STATE.onTrack
 
     """
     Reads the sensor values into an array. There *MUST* be space
@@ -169,7 +172,7 @@ class TRSensor(object):
 
         print("readline start")
 
-        self.currentState = STATE.onTrack   #TODO TEMP
+        #self.currentState = STATE.onTrack   #TODO TEMP
 
         sensor_values = self.readCalibrated(sensor_values)
 
@@ -191,7 +194,7 @@ class TRSensor(object):
                 on_line = 1
 
             # only average in values that are above a noise threshold
-            if value > 50:
+            if value > 50:  #TODO - change to LINE_THRESHOLD?
                 avg += value * (i * 1000)  # this is for the weighted total,
                 sum += value  # this is for the denominator
 
@@ -205,7 +208,7 @@ class TRSensor(object):
         else:
             self.currentState = STATE.onTrack
             print("STATE: ON TRACK")
-        return self.last_value
+        #return self.last_value
 
         if on_line != 1:
 
@@ -225,6 +228,7 @@ class TRSensor(object):
 
         self.last_value = avg / sum
 
+        return self.last_value
 
 
 

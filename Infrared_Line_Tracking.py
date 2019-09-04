@@ -58,10 +58,12 @@ class InfraredLineTracker:
 
 				#when numberOfIterations == -1 then run indefinitely
 				if iterationCount<0 and numberOfIterations != -1:
+					print("if iterationCount<0 and numberOfIterations != -1:  BREAK")
 					break
 
 				if self.TR.currentState == STATE.outOfTrack:
 					#try to get back based on history
+					print ("if self.TR.currentState == STATE.outOfTrack: IGNORE")
 					pass
 
 	def runWithRouteCorrection(self, numberOfIterations=-1):
@@ -80,8 +82,12 @@ class InfraredLineTracker:
 
 		iterationCount = numberOfIterations
 
+		powerReversed = False
+
 		while True:
 			position = self.TR.readLine(self.TR.AnalogRead())
+
+			print("runWithRouteCorrection. In while loop")
 
 			iterationCount = iterationCount - 1
 
@@ -92,10 +98,17 @@ class InfraredLineTracker:
 			if self.TR.currentState == STATE.outOfTrack:
 				# try to get back based on history
 
+				print("runWithRouteCorrection. currentState == STATE.outOfTrack")
+
 				#TODO: set the power properly.
 				#Magnitude the same as before, but reversed?
-				pwmaPower = -self.Ab.PMMACurrentValue
-				pwmbPower = -self.Ab.PMMBCurrentValue
+				if not powerReversed:
+					pwmaPower = -self.Ab.PMMACurrentValue
+					pwmbPower = -self.Ab.PMMBCurrentValue
+
+					#reverse power only once per out of track case (othewise we would be back to prevoious value in the next iteration?
+					powerReversed = True
+
 
 				self.Ab.setPWMB(pwmbPower)
 				self.Ab.setPWMA(pwmaPower)
@@ -106,6 +119,8 @@ class InfraredLineTracker:
 
 				self.Ab.setPWMB(pwmbPower)
 				self.Ab.setPWMA(pwmaPower)
+
+				powerReversed = false
 
 
 	def calculatePowerUpdate(self, position):
