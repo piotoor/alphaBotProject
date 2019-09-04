@@ -18,11 +18,14 @@ std::pair<T,U> operator-(const std::pair<T,U> & l,const std::pair<T,U> & r)
 SingleCurveGenerator:: SingleCurveGenerator(size_t numOfSegments, const vector<Point>& controlPoints):numOfSegments(numOfSegments),
     controlPoints(controlPoints.begin(), controlPoints.end())
 {
+
+#ifdef TRACE
     cout << "Control points:" << endl;
     for(size_t i = 0; i < controlPoints.size(); i++)
     {
         cout << "[" << controlPoints[i].first << "; " << controlPoints[i].second << "] " << endl;
     }
+#endif //TRACE
     this->order = controlPoints.size() - 1;
 }
 

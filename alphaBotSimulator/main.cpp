@@ -27,7 +27,7 @@ int main()
         make_pair(730.22, 473.75),
         make_pair(430.22, 173.75)
     });
-    vector<pair<double, double>> res = scg.Bezier2DTriangleStrip(30.0f);//Bezier2D();
+    vector<pair<double, double>> res = scg.Bezier2DTriangleStrip(15.0f);//Bezier2D();
     //sf::VertexArray vertices(sf::Points, res.size());
     sf::VertexArray vertices(sf::TriangleStrip, res.size());
 
