@@ -1,8 +1,10 @@
 #ifndef CAR_H
 #define CAR_H
+
 #include <SFML/Graphics.hpp>
-#include "assets.h"
 #include <cmath>
+
+#include "assets.h"
 
 class car
 {
@@ -11,10 +13,10 @@ class car
         virtual ~car();
 
         void onKeyPressed();
-        sf::Sprite* getSprite();
+        sf::Sprite *getSprite();
 
     protected:
-        sf::Sprite* sprite;
+        sf::Sprite *sprite;
         float d;
         float dir;
 

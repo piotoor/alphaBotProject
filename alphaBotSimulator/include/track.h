@@ -1,9 +1,10 @@
 #ifndef TRACK_H
 #define TRACK_H
-#include "SingleCurveGenerator.h"
-#include <SFML/Graphics.hpp>
-#include "assets.h"
 
+#include <SFML/Graphics.hpp>
+
+#include "SingleCurveGenerator.h"
+#include "assets.h"
 
 
 class track
@@ -17,7 +18,7 @@ class track
         };
 
     public:
-        track(trackType type = trackType::DEFAULT, const vector<Point> *controlPoints = nullptr);
+        track(trackType type = trackType::DEFAULT, const std::vector<Point> *controlPoints = nullptr);
         virtual ~track();
         sf::VertexArray *getVertices();
 
@@ -26,7 +27,7 @@ class track
         SingleCurveGenerator *scg;
 
     private:
-        vector<Point> trackPoints;
+        std::vector<Point> trackPoints;
 
 
 };

@@ -1,13 +1,14 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <cmath>
+
 #include "assets.h"
 #include "car.h"
 #include "track.h"
 #include "SingleCurveGenerator.h"
+
 int width = 1200;
 int height = 800;
-using namespace std;
 
 int main()
 {
@@ -32,10 +33,10 @@ int main()
         window.clear();
         window.draw(*t.getVertices());
         window.draw(*c.getSprite());
-
         window.display();
     }
 
     assets::disposeTextures();
+
     return 0;
 }

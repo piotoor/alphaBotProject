@@ -1,7 +1,7 @@
 #include "SingleCurveGenerator.h"
+
 #include <cmath>
 #include <iostream>
-using namespace std;
 
 template <typename T,typename U>
 std::pair<T,U> operator+(const std::pair<T,U> & l,const std::pair<T,U> & r)
@@ -15,15 +15,15 @@ std::pair<T,U> operator-(const std::pair<T,U> & l,const std::pair<T,U> & r)
     return {l.first - r.first, l.second - r.second};
 }
 
-SingleCurveGenerator:: SingleCurveGenerator(size_t numOfSegments, const vector<Point>& controlPoints):numOfSegments(numOfSegments),
+SingleCurveGenerator:: SingleCurveGenerator(size_t numOfSegments, const std::vector<Point>& controlPoints):numOfSegments(numOfSegments),
     controlPoints(controlPoints.begin(), controlPoints.end())
 {
 
 #ifdef TRACE
-    cout << "Control points:" << endl;
+    std::cout << "Control points:" << std::endl;
     for(size_t i = 0; i < controlPoints.size(); i++)
     {
-        cout << "[" << controlPoints[i].first << "; " << controlPoints[i].second << "] " << endl;
+        std::cout << "[" << controlPoints[i].first << "; " << controlPoints[i].second << "] " << std::endl;
     }
 #endif //TRACE
     this->order = controlPoints.size() - 1;
@@ -38,20 +38,23 @@ int SingleCurveGenerator:: Newton(int k)
 {
     int num = 1;
     int denom = 1;
-    if(newtonCache.find(make_pair(order, k)) == newtonCache.end())
+
+    if(newtonCache.find(std::make_pair(order, k)) == newtonCache.end())
     {
         for(unsigned int i = order - k + 1; i < order + 1; i++)
         {
             num *= i;
         }
+
         for(int i = 1; i < k + 1; i++)
         {
             denom *= i;
         }
-        newtonCache[make_pair(order, k)] = num / denom;
+
+        newtonCache[std::make_pair(order, k)] = num / denom;
     }
 
-    return newtonCache[make_pair(order, k)];
+    return newtonCache[std::make_pair(order, k)];
 }
 
 double SingleCurveGenerator:: Bernstein(int i, double t)
@@ -64,29 +67,33 @@ Point SingleCurveGenerator:: p(double t)
 {
     double x = 0.0;
     double y = 0.0;
+
     for(unsigned int i = 0; i < controlPoints.size(); i++)
     {
         x += controlPoints[i].first * Bernstein(i, t);
         y += controlPoints[i].second * Bernstein(i, t);
     }
-    return make_pair(x, y);
+
+    return std::make_pair(x, y);
 }
 
-vector<Point> SingleCurveGenerator:: Bezier2D()
+std::vector<Point> SingleCurveGenerator:: Bezier2D()
 {
-    vector<Point> res;
+    std::vector<Point> res;
     double dt = 1.0 / (double)numOfSegments;
+
     for(unsigned int i = 0; i < numOfSegments + 1; i++)
     {
         res.push_back(p(i * dt));
     }
+
     return res;
 }
 
-vector<Point> SingleCurveGenerator:: Bezier2DTriangleStrip(double d)
+std::vector<Point> SingleCurveGenerator:: Bezier2DTriangleStrip(double d)
 {
-    vector<Point> res;
-    vector<Point> line = Bezier2D();
+    std::vector<Point> res;
+    std::vector<Point> line = Bezier2D();
 
     for(size_t i = 0; i < line.size() ; i++)
     {
@@ -109,9 +116,8 @@ vector<Point> SingleCurveGenerator:: Bezier2DTriangleStrip(double d)
             Point perp = computePerpendicularVector(line[i + 1] - line[i - 1], d) + line[i];
             res.push_back(perp);
         }
-
-
     }
+
     return res;
 }
 
@@ -134,6 +140,7 @@ Point SingleCurveGenerator:: computePerpendicularVector(const Point &vect, const
 
     res.first = unit.first * distance;
     res.second = unit.second * distance;
+
     return res;
     // return vector perpendicular anchored at (0, 0). Will get moved based on the middle point
 }
