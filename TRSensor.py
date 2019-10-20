@@ -37,10 +37,13 @@ class TRSensor(object):
 
         self.iteration = 0
 
-        self.currentState = STATE.outOfTrack
+        #self.currentState = STATE.outOfTrack
 
         self.STATE_HISTORY_PERIOD = stateHistoryPeriod
         self.state_history = collections.deque(maxlen=100)
+
+        #TODO - temp
+        self.currentState = STATE.onTrack
 
     """
     Reads the sensor values into an array. There *MUST* be space
@@ -167,7 +170,9 @@ class TRSensor(object):
 
     def readLine(self, sensor_values, white_line=0):
 
-        self.currentState = STATE.onTrack   #TODO TEMP
+        print("readline start")
+
+        #self.currentState = STATE.onTrack   #TODO TEMP
 
         sensor_values = self.readCalibrated(sensor_values)
 
@@ -189,24 +194,44 @@ class TRSensor(object):
                 on_line = 1
 
             # only average in values that are above a noise threshold
-            if value > 50:
+            if value > 50:  #TODO - change to LINE_THRESHOLD?
                 avg += value * (i * 1000)  # this is for the weighted total,
                 sum += value  # this is for the denominator
+
+        print("gsdebug readline 1")
+
+
+        #check if we are outside of track (all sensor vals below threshold)
+        if self.isOutsideOfTrack(sensor_values):
+            self.currentState = STATE.outOfTrack
+            print("STATE CHANGED TO OUT OF TRACK")
+        else:
+            self.currentState = STATE.onTrack
+            print("STATE: ON TRACK")
+        #return self.last_value
 
         if on_line != 1:
 
             # If it last read to the left of center, return 0.
             if self.last_value < (self.numSensors - 1) * 1000 / 2:
                 # print("left")
+                print("gsdebug readline 2")
+
                 return 0
 
             # If it last read to the right of center, return the max.
             else:
                 # print("right")
+                print("gsdebug readline 3")
+
                 return (self.numSensors - 1) * 1000
 
         self.last_value = avg / sum
 
-
         return self.last_value
-11
+
+
+
+    def isOutsideOfTrack(self, sensor_values):
+        # https://stackoverflow.com/questions/20229822/check-if-all-values-in-list-are-greater-than-a-certain-number
+        return all(sensor_value < self.LINE_THRESHOLD for sensor_value in sensor_values)
