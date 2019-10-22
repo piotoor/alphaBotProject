@@ -61,10 +61,18 @@ class AlphaBot(object):
 		
 	def setPWMA(self,value):
 		self.PMMACurrentValue = value
+
+		if value > 100: #max
+			value = 100
 		self.PWMA.ChangeDutyCycle(value)
 
 	def setPWMB(self,value):
 		self.PMMBCurrentValue = value
+
+
+		if value > 100:  # max
+			value = 100
+
 		self.PWMB.ChangeDutyCycle(value)	
 		
 	def setMotor(self, left, right):
