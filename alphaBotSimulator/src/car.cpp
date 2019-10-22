@@ -23,16 +23,19 @@ void car::onKeyPressed()
     {
         sprite->rotate(-1.6f * dir);
     }
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
         sprite->rotate(1.6f * dir);
     }
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
         dir = 1.0f;
         //sprite->move(d * sin(sprite->getRotation() * PI / 180.0), -d * cos(sprite->getRotation() * PI / 180.0));
         sprite->move(d * sin(sprite->getRotation() * PI / 180.0), -d * cos(sprite->getRotation() * PI / 180.0));
     }
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     {
         d = -d;
@@ -42,7 +45,7 @@ void car::onKeyPressed()
     }
 }
 
-sf::Sprite* car::getSprite()
+sf::Sprite *car::getSprite()
 {
     return this->sprite;
 }
