@@ -16,9 +16,14 @@ track::track(trackType type, const std::vector<Point> *controlPoints)
             std::make_pair(730.22, 473.75),
             std::make_pair(430.22, 173.75)
         });
-        trackPoints = scg-> Bezier2DTriangleStrip(15.0f);
+    }
+    else if (type == trackType::DEFINED)
+    {
+        int segm = 80;
+        scg = new SingleCurveGenerator(segm, *controlPoints);
     }
 
+    trackPoints = scg-> Bezier2DTriangleStrip(15.0f);
     vertexArray = new sf::VertexArray(sf::TriangleStrip, trackPoints.size());
 
     for(size_t i = 0; i < trackPoints.size(); i++)
