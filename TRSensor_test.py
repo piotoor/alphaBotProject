@@ -55,19 +55,21 @@ class TRSensor_Test(unittest.TestCase):
         TR = TRSensor.TRSensor()
         TR.LINE_THRESHOLD = 200
 
-        sensor_values = [100, 100, 100, 100, 100]
+        inputVal = TR.LINE_THRESHOLD/2
+        sensor_values = [inputVal, inputVal, inputVal, inputVal, inputVal]
         self.assertTrue(TR.isOutsideOfTrack(sensor_values))
 
         sensor_values = [0, 0, 0, 0, 0]
         self.assertTrue(TR.isOutsideOfTrack(sensor_values))
 
-        sensor_values = [300, 100, 100, 100, 100]
+        sensor_values = [TR.LINE_THRESHOLD*1.5, TR.LINE_THRESHOLD/2, TR.LINE_THRESHOLD/2, TR.LINE_THRESHOLD/2, TR.LINE_THRESHOLD/2]
         self.assertFalse(TR.isOutsideOfTrack(sensor_values))
 
-        sensor_values = [100, 300, 100, 100, 100]
+        sensor_values = [TR.LINE_THRESHOLD/2, TR.LINE_THRESHOLD*1.5, TR.LINE_THRESHOLD/2, TR.LINE_THRESHOLD/2, TR.LINE_THRESHOLD/2]
         self.assertFalse(TR.isOutsideOfTrack(sensor_values))
 
-        sensor_values = [500, 500, 500, 500, 500]
+        inputVal = TR.LINE_THRESHOLD*1.5
+        sensor_values = [inputVal, inputVal, inputVal, inputVal, inputVal]
         self.assertFalse(TR.isOutsideOfTrack(sensor_values))
 
 
