@@ -118,7 +118,7 @@ class InfraredLineTracker:
 					#pwmaPower = pwmaPower*4
 					#pwmbPower = pwmbPower*4
 
-					#reverse power only once per out of track case (othewise we would be back to prevoious value in the next iteration?
+					#reverse power only once per out of track case (otherwise we would be back to previous value in the next iteration?
 					powerReversed = True
 
 
