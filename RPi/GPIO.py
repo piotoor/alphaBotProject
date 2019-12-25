@@ -15,8 +15,18 @@ class PWM:
     def start(self, val):
         pass
 
-    def ChangeDutyCycle(self,val):
+    def ChangeDutyCycle_mock(self,val):
         pass
+
+    def ChangeDutyCycle_itc(self,val):
+        #TODO - implement itc for communication between simulator and script
+        pass
+
+    def ChangeDutyCycle(self,val, useItc):  #itc - inter-process communication
+        if useItc:
+            self.ChangeDutyCycle_itc(val)
+        else:
+            self.ChangeDutyCycle_mock(val)
 
 def setmode(mode):
     pass
