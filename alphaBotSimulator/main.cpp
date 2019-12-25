@@ -14,8 +14,8 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(width, height), "SFML works!");
     window.setFramerateLimit(80);
-    sf::Clock clock;
 
+    sf::Clock clock;
     assets::loadTextures("assets");
     car c;
     track t;
@@ -31,6 +31,7 @@ int main()
 
         sf::Time elapsed = clock.restart();
         c.onKeyPressed(elapsed);
+        c.update(elapsed);
 
         window.clear();
         window.draw(*t.getVertices());
