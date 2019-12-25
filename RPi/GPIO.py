@@ -18,8 +18,8 @@ class PWM:
     def ChangeDutyCycle(self,val):
         pass
 
-    def ChangeDutyCycle_itc(self,val):
-        #TODO - implement itc for communication between simulator and script
+    def ChangeDutyCycle_ipc(self,val):
+        #TODO - implement ipc for communication between simulator and script
         pass
 
 def setmode(mode):

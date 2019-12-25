@@ -36,7 +36,7 @@ class InfraredLineTracker:
 			time.sleep(0.5)
 
 			for i in range(0, self.calibrationIterationCount):
-				self.TR.calibrate(self.TR.AnalogRead())
+				self.TR.calibrate(self.readSensorValues())
 				#print (i)
 
 			print(self.TR.calibratedMin)
@@ -48,7 +48,7 @@ class InfraredLineTracker:
 			iterationCount = numberOfIterations
 
 			while True:
-				position = self.TR.readLine(self.TR.AnalogRead())
+				position = self.TR.readLine(self.readSensorValues())
 				pwmaPower, pwmbPower = self.calculatePowerUpdate(position)
 
 				self.Ab.setPWMB(pwmbPower)
@@ -186,6 +186,15 @@ class InfraredLineTracker:
 			pwmaPower = self.maximum - power_difference
 		return pwmaPower, pwmbPower
 
+	def readSensorValues(self):
+		if self.Ab.useIpc:
+			return self.getValuesFromItc()
+		else:
+			return self.TR.AnalogRead()
+
+	def getValuesFromItc(self):
+		#TODO - implement ITC
+		return []*5
 
 # Simple example prints accel/mag data once per second:
 if __name__ == '__main__':
