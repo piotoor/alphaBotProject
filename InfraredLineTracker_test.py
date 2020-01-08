@@ -39,6 +39,13 @@ class TRSensor_Test(unittest.TestCase):
         TRSensor.AnalogRead.return_value = [inputVal, inputVal, inputVal, inputVal, inputVal]
         tracker.run(10)
 
+    def test_run_useSim(self):
+        #TODO expand test
+        tracker = InfraredLineTracker()
+        tracker.useSim(True)
+
+        tracker.run(10)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -29,6 +29,7 @@ class AlphaBot(object):
 		self.PMMBCurrentValue = 0
 
 		self.useIpc = False
+		self.sim = None
 
 	def forward(self):
 		GPIO.output(self.IN1,GPIO.HIGH)
@@ -65,7 +66,7 @@ class AlphaBot(object):
 
 	def ChangeDutyCycle(self, pwm, val):  # ipc - inter-process communication
 		if self.useIpc:
-			pwm.ChangeDutyCycle_ipc(val)
+			pwm.ChangeDutyCycle_ipc(self.sim, val)
 		else:
 			pwm.ChangeDutyCycle(val)
 
