@@ -188,12 +188,12 @@ class InfraredLineTracker:
 
 	def readSensorValues(self):
 		if self.Ab.useIpc:
-			return self.getValuesFromItc()
+			return self.getValuesFromIpc()
 		else:
 			return self.TR.AnalogRead()
 
-	def getValuesFromItc(self):
-		#TODO - implement ITC
+	def getValuesFromIpc(self):
+		#TODO - implement IPC
 		return []*5
 
 # Simple example prints accel/mag data once per second:
