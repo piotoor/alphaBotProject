@@ -33,16 +33,20 @@ class car
 
         sf::Sprite          *sprite;
         sf::Vector2<float>   v; // depr ?
+        sf::Vector2<float>   curveOrigin;
 
         float   d;    // depr
         float   dir;  // depr
         float   leftPower;
         float   rightPower;
         float   maxPower;
+        float   prevLeftPower;
+        float   prevRightPower;
         float   powerVelocityRatio;
         float   leftAngularVelocity;
         float   rightAngularVelocity;
         bool    forwards;
+        bool    updatedPower;
 
         static constexpr float  wheelRadius = 10.0f;
         static constexpr float  axisLength  = 100.0f;
