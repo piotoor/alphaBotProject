@@ -14,5 +14,13 @@ while True:
     #  Do some 'work'
     time.sleep(0.001)
 
+    message = message.decode("utf-8")
+
     #  Send reply back to client
-    socket.send(b"World")
+
+    if message == "getSensorVals":
+        socket.send(b"getSensorValsRsp")
+    elif message == "updatePWM":
+        socket.send(b"updatePwmRsp")
+    else:
+        socket.send(b"Hello")
