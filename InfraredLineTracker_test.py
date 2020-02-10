@@ -1,5 +1,5 @@
 import unittest
-from Infrared_Line_Tracking import InfraredLineTracker
+from InfraredLineTracker import InfraredLineTracker
 from TRSensor import STATE
 from TRSensor import TRSensor
 from unittest.mock import Mock
