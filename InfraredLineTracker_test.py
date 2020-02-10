@@ -1,5 +1,5 @@
 import unittest
-from Infrared_Line_Tracking import InfraredLineTracker
+from InfraredLineTracker import InfraredLineTracker
 from TRSensor import STATE
 from TRSensor import TRSensor
 from unittest.mock import Mock
@@ -38,6 +38,13 @@ class TRSensor_Test(unittest.TestCase):
         inputVal = tracker.TR.LINE_THRESHOLD + 50
         TRSensor.AnalogRead.return_value = [inputVal, inputVal, inputVal, inputVal, inputVal]
         tracker.run(10)
+
+    #def test_run_useSim(self):
+        #TODO expand test
+        #tracker = InfraredLineTracker()
+        #tracker.useSim(True)
+
+        #tracker.run(10)
 
 
 if __name__ == '__main__':

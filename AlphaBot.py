@@ -28,6 +28,8 @@ class AlphaBot(object):
 		self.PMMACurrentValue = 0
 		self.PMMBCurrentValue = 0
 
+		self.useIpc = False
+		self.sim = None
 
 	def forward(self):
 		GPIO.output(self.IN1,GPIO.HIGH)
@@ -58,13 +60,22 @@ class AlphaBot(object):
 		GPIO.output(self.IN2,GPIO.LOW)
 		GPIO.output(self.IN3,GPIO.LOW)
 		GPIO.output(self.IN4,GPIO.LOW)
-		
+
+	def setIpc(self, val):
+		self.useIpc = val
+
+	def ChangeDutyCycle(self, pwm, val):  # ipc - inter-process communication
+		if self.useIpc:
+			pwm.ChangeDutyCycle_ipc(self.sim, val)
+		else:
+			pwm.ChangeDutyCycle(val)
+
 	def setPWMA(self,value):
 		self.PMMACurrentValue = value
 
 		if value > 100: #max
 			value = 100
-		self.PWMA.ChangeDutyCycle(value)
+		self.ChangeDutyCycle(self.PWMA, value)
 
 	def setPWMB(self,value):
 		self.PMMBCurrentValue = value
@@ -73,24 +84,24 @@ class AlphaBot(object):
 		if value > 100:  # max
 			value = 100
 
-		self.PWMB.ChangeDutyCycle(value)	
+		self.ChangeDutyCycle(self.PWMB, value)
 		
 	def setMotor(self, left, right):
 		if((right >= 0) and (right <= 100)):
 			GPIO.output(self.IN1,GPIO.HIGH)
 			GPIO.output(self.IN2,GPIO.LOW)
-			self.PWMA.ChangeDutyCycle(right)
+			self.ChangeDutyCycle(self.PWMA, right)
 		elif((right < 0) and (right >= -100)):
 			GPIO.output(self.IN1,GPIO.LOW)
 			GPIO.output(self.IN2,GPIO.HIGH)
-			self.PWMA.ChangeDutyCycle(0 - right)
+			self.ChangeDutyCycle(self.PWMA, 0 - right)
 		if((left >= 0) and (left <= 100)):
 			GPIO.output(self.IN3,GPIO.HIGH)
 			GPIO.output(self.IN4,GPIO.LOW)
-			self.PWMB.ChangeDutyCycle(left)
+			self.ChangeDutyCycle(self.PWMB, left)
 		elif((left < 0) and (left >= -100)):
 			GPIO.output(self.IN3,GPIO.LOW)
 			GPIO.output(self.IN4,GPIO.HIGH)
-			self.PWMB.ChangeDutyCycle(0 - left)
+			self.ChangeDutyCycle(self.PWMB, 0 - left)
 
 	

@@ -9,13 +9,23 @@ LOW = 0
 HIGH = 1
 
 class PWM:
+
     def __init__(self, ena, val):
+        self.ena = ena
         pass
 
     def start(self, val):
         pass
 
     def ChangeDutyCycle(self,val):
+        pass
+
+    def ChangeDutyCycle_ipc(self,sim, val):
+        #TODO - implement ipc for communication between simulator and script
+
+        from  Simulator import Simulator
+
+        sim.updatePWM(self.ena, val)
         pass
 
 def setmode(mode):
