@@ -34,7 +34,10 @@ class Simulator:
 
         print("GSDEBUG send updatePWM to sim")
 
-        self.socket.send(b"updatePWM")
+
+        msg = "updatePWM:"+str(val)
+
+        self.socket.send(msg.encode("utf-8"))
 
         pass
 
