@@ -12,7 +12,7 @@ class TRSensor_Test(unittest.TestCase):
 
         valsString = [str(i) for i in vals]
 
-        rspDecoded = ""
+        rspDecoded = ","
         rspDecoded = rspDecoded.join(valsString)
         #rspDecoded = str(rspDecoded)
 
@@ -28,6 +28,27 @@ class TRSensor_Test(unittest.TestCase):
 
         print("Simulator_test::test_updatePWM  Rsp: "+rsp.decode("utf-8"))
         self.assertEqual(rsp, b"updatePwmRsp")
+
+    def test_parseGetSensorValsMsg(self):
+        print("test_parseGetSensorValsMsg")
+
+        sim = Simulator.Simulator()
+
+        msg = "getSensorValsRsp:0,0,0,0,0"
+        result = sim.parseGetSensorValsMsg(msg)
+        self.assertEqual(result, [0,0,0,0,0])
+
+        msg = "getSensorValsRsp:10,20,30,40,50"
+        result = sim.parseGetSensorValsMsg(msg)
+        self.assertEqual(result, [10,20,30,40,50])
+
+        msg = "getSensorValsRsp:100,210,330,440,550"
+        result = sim.parseGetSensorValsMsg(msg)
+        self.assertEqual(result, [100,210,330,440,550])
+
+        msg = "getSensorValsRsp:1000,1020,1015,959,23"
+        result = sim.parseGetSensorValsMsg(msg)
+        self.assertEqual(result, [1000,1020,1015,959,23])
 
 if __name__ == '__main__':
     unittest.main()

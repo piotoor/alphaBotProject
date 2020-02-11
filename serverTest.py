@@ -21,7 +21,7 @@ while True:
     messageSections = message.split(":")
 
     if messageSections[0] == "getSensorVals":
-        socket.send(b"getSensorValsRsp")
+        socket.send(b"getSensorValsRsp:1,2,3,44,5")
     elif messageSections[0] == "updatePWM":
         socket.send(b"updatePwmRsp")
     else:
