@@ -50,5 +50,9 @@ class TRSensor_Test(unittest.TestCase):
         result = sim.parseGetSensorValsMsg(msg)
         self.assertEqual(result, [1000,1020,1015,959,23])
 
+        msg = "getSensorValsRsp:1,2"
+        result = sim.parseGetSensorValsMsg(msg)
+        self.assertFalse(result)
+
 if __name__ == '__main__':
     unittest.main()
