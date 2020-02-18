@@ -10,8 +10,8 @@ HIGH = 1
 
 class PWM:
 
-    def __init__(self, ena, val):
-        self.ena = ena
+    def __init__(self, type, val):
+        self.type = type
         pass
 
     def start(self, val):
@@ -25,7 +25,7 @@ class PWM:
 
         from  Simulator import Simulator
 
-        sim.updatePWM(self.ena, val)
+        sim.updatePWM(self.type, val)
         pass
 
 def setmode(mode):

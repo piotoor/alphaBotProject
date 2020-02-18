@@ -1,5 +1,6 @@
 import zmq
 
+
 class Simulator:
 
     def __init__(self):
@@ -26,18 +27,35 @@ class Simulator:
         print("GSDEBUG waiting for data from sim")
 
         reply = self.socket.recv()
+        reply = reply.decode("utf-8")
 
         return self.parseGetSensorValsMsg(reply)
 
     def updatePWM(self, pwm, val):
         #TODO implement IPC
 
-        print("GSDEBUG send updatePWM to sim")
+        pwmCode = str(pwm.type)
 
-        self.socket.send(b"updatePWM")
+        msg = "updatePWM:"+pwmCode+":"+str(val)
+
+        self.socket.send(msg.encode("utf-8"))
 
         pass
 
-    def parseGetSensorValsMsg(self, msg):
+    def parseGetSensorValsMsg(self, msgDecoded):
         #TODO implement parsing msg
-        return [0]*5
+
+        #TODO check if header matches?
+
+        sections = msgDecoded.split(":")
+
+        msgContent = sections[1].split(',')
+
+        if len(msgContent) != 5:
+            print("ERROR parseGetSensorValsMsg - incorrect number of sensor inputs received!")
+            return False
+
+        result = [int(x) for x in msgContent]
+
+        return result
+
