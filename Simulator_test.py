@@ -2,6 +2,8 @@ import unittest
 import Simulator as Simulator
 import AlphaBot
 
+#Run with ./serverTest.py
+
 class TRSensor_Test(unittest.TestCase):
     def test_dummy(self):
         pass
@@ -50,13 +52,19 @@ class TRSensor_Test(unittest.TestCase):
         result = sim.parseGetSensorValsMsg(msg)
         self.assertEqual(result, [1000,1020,1015,959,23])
 
+        print("TEST FAIL CASE - ERROR EXPECTED!")
         msg = "getSensorValsRsp:1,2"
         result = sim.parseGetSensorValsMsg(msg)
         self.assertFalse(result)
+        print("END TEST FAIL CASE")
 
+
+        print("TEST FAIL CASE - ERROR EXPECTED!")
         msg = "getSensorValsRsp:1,2,3,4,5,6"
         result = sim.parseGetSensorValsMsg(msg)
         self.assertFalse(result)
+        print("END TEST FAIL CASE")
+
 
 if __name__ == '__main__':
     unittest.main()

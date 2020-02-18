@@ -1,5 +1,6 @@
 import zmq
 
+
 class Simulator:
 
     def __init__(self):
@@ -35,8 +36,11 @@ class Simulator:
 
         print("GSDEBUG send updatePWM to sim")
 
+        print("GSDEBUG updatePWM pwm:"+str(pwm.type))
 
-        msg = "updatePWM:"+str(val)
+        pwmCode = str(pwm.type)
+
+        msg = "updatePWM:"+pwmCode+":"+str(val)
 
         self.socket.send(msg.encode("utf-8"))
 
