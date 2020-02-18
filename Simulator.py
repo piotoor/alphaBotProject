@@ -34,10 +34,6 @@ class Simulator:
     def updatePWM(self, pwm, val):
         #TODO implement IPC
 
-        print("GSDEBUG send updatePWM to sim")
-
-        print("GSDEBUG updatePWM pwm:"+str(pwm.type))
-
         pwmCode = str(pwm.type)
 
         msg = "updatePWM:"+pwmCode+":"+str(val)

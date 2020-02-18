@@ -24,10 +24,20 @@ class TRSensor_Test(unittest.TestCase):
     def test_updatePWM(self):
         ab = AlphaBot.AlphaBot()
         sim = Simulator.Simulator()
-        sim.updatePWM(ab.PWMA, 50)
 
+        pval = 50
+
+        pwm = ab.PWMA
+        print("Simulator_test::test_updatePWM send updatePWM to sim. pwm:"+str(pwm.type)+" val:"+str(pval))
+        sim.updatePWM(pwm, pval)
         rsp = sim.socket.recv()
+        print("Simulator_test::test_updatePWM  Rsp: "+rsp.decode("utf-8"))
+        self.assertEqual(rsp, b"updatePwmRsp")
 
+        pwm = ab.PWMB
+        print("Simulator_test::test_updatePWM send updatePWM to sim. pwm:"+str(pwm.type)+" val:"+str(pval))
+        sim.updatePWM(pwm, pval)
+        rsp = sim.socket.recv()
         print("Simulator_test::test_updatePWM  Rsp: "+rsp.decode("utf-8"))
         self.assertEqual(rsp, b"updatePwmRsp")
 
