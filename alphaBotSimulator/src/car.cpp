@@ -121,113 +121,80 @@ void car::updatePower(float leftPower, float rightPower, bool forwards)
 
 void car::update(sf::Time t)
 {
-    float left_theta  = leftAngularVelocity  * t.asMilliseconds() / 1000.0f;
-    float right_theta = rightAngularVelocity * t.asMilliseconds() / 1000.0f;
-    float left_l  = wheelRadius * left_theta;
-    float right_l = wheelRadius * right_theta;
+    float leftTheta  = leftAngularVelocity  * t.asMilliseconds() / 1000.0f;
+    float rightTheta = rightAngularVelocity * t.asMilliseconds() / 1000.0f;
+    float leftDistance  = wheelRadius * leftTheta;
+    float rightDistance = wheelRadius * rightTheta;
 
 
     using namespace std;
-    cout << "left_l = " << left_l << endl;
-    cout << "right_l = " << right_l << endl;
-    cout << "left_theta = " << left_theta << endl;
-    cout << "right_theta = " << right_theta << endl;
+    cout << "left_l = " << leftDistance << endl;
+    cout << "right_l = " << rightDistance << endl;
+    cout << "left_theta = " << leftTheta << endl;
+    cout << "right_theta = " << rightTheta << endl;
     cout << "pos = " << sprite->getPosition().x << " ; " << sprite->getPosition().y << endl;
     cout << "power = " << leftPower << " ; " << rightPower << endl;
 
-//
-//    if(getDirection() == car::direction::forwards)
-//    {
-//        // change pos based on left_l and right_l
-//        // sprite->move(left_l, 0);
-//    }
-//    else if (getDirection() == car::direction::left)
-//    {
-//
 
-        // 1. calculate curveRadius and relative origin, based on current coords and rotation angle
-        float curveRadius = std::numeric_limits<float>::max();
-        float spriteRotationRad = 0.0f;
-        float x_tmp = 0.0f;
+    // 1. calculate curveRadius and relative origin, based on current coords and rotation angle
+    float curveRadius = std::numeric_limits<float>::max();
+    float spriteRotationRad = 0.0f;
+    float rotatingTempSystemOriginX = 0.0f;
 
-        if(getDirection() == car::direction::left)
-        {
-            curveRadius   = abs(left_l * axisLength / (right_l - left_l));
-            spriteRotationRad = (360.0f - sprite->getRotation()) * pi / 180.0f;
-            x_tmp = curveRadius * cos(spriteRotationRad);
-        }
-        else if(getDirection() == car::direction::right)
-        {
-            curveRadius   = abs(right_l * axisLength / (left_l - right_l));
-            spriteRotationRad = -(360.0f - sprite->getRotation()) * pi / 180.0f;
-            x_tmp = -curveRadius * cos(spriteRotationRad);
-        }
+    if(getDirection() == car::direction::left)
+    {
+        curveRadius   = abs(leftDistance * axisLength / (rightDistance - leftDistance));
+        spriteRotationRad = (360.0f - sprite->getRotation()) * pi / 180.0f;
+        rotatingTempSystemOriginX = curveRadius * cos(spriteRotationRad);
+    }
+    else if(getDirection() == car::direction::right)
+    {
+        curveRadius   = abs(rightDistance * axisLength / (leftDistance - rightDistance));
+        spriteRotationRad = -(360.0f - sprite->getRotation()) * pi / 180.0f;
+        rotatingTempSystemOriginX = -curveRadius * cos(spriteRotationRad);
+    }
 
-        //sf::Vector2f O;
-        float y_tmp = curveRadius * sin(spriteRotationRad);
-        cout << "x_tmp = " << x_tmp << endl;
-        cout << "y_tmp = " << y_tmp << endl;
-        //O.x = sprite->getPosition().x - x_tmp;
-        //O.y = sprite->getPosition().y - y_tmp;
-        // 2. calculate x and y in a temporary system
-            // x_tmp & y_tmp ?
-        // 3. calcualate current dx and dy and rotation delta
-        float dalpha_rad = 0.0f;
-        if(getDirection() == car::direction::left)
-        {
-            dalpha_rad = right_l / (curveRadius + axisLength);
-        }
-        else if(getDirection() == car::direction::right)
-        {
-            dalpha_rad = -left_l / (curveRadius + axisLength);
-        }
+    float rotatingTempSystemOriginY = curveRadius * sin(spriteRotationRad);
+    cout << "x_tmp = " << rotatingTempSystemOriginX << endl;
+    cout << "y_tmp = " << rotatingTempSystemOriginY << endl;
 
-        float dx = x_tmp - (x_tmp * cos(dalpha_rad) + y_tmp*sin(dalpha_rad));
-        float dy = (-x_tmp * sin(dalpha_rad) + y_tmp * cos(dalpha_rad)) - y_tmp;
-        // 4. apply deltas
-        sprite->move(dx, dy);
+    // 2. calcualate current dx and dy and rotation delta
+    float dalpha_rad = 0.0f;
+    if(getDirection() == car::direction::left)
+    {
+        dalpha_rad = rightDistance / (curveRadius + axisLength);
+    }
+    else if(getDirection() == car::direction::right)
+    {
+        dalpha_rad = -leftDistance / (curveRadius + axisLength);
+    }
 
-        // 6. apply rotation delta
-        float alpha_deg = 0.0f;
-        if(getDirection() == car::direction::left)
-        {
-            alpha_deg = dalpha_rad * 180 / pi;
-        }
-        else if(getDirection() == car::direction::right)
-        {
-            alpha_deg = dalpha_rad * 180 / pi;
-        }
+    float dx = rotatingTempSystemOriginX - (rotatingTempSystemOriginX * cos(dalpha_rad) + rotatingTempSystemOriginY*sin(dalpha_rad));
+    float dy = (-rotatingTempSystemOriginX * sin(dalpha_rad) + rotatingTempSystemOriginY * cos(dalpha_rad)) - rotatingTempSystemOriginY;
 
-        sprite->rotate(-alpha_deg);
+    // 3. apply deltas
+    sprite->move(dx, dy);
+
+    // 4. apply rotation delta
+    float alpha_deg = 0.0f;
+    if(getDirection() == car::direction::left)
+    {
+        alpha_deg = dalpha_rad * 180 / pi;
+    }
+    else if(getDirection() == car::direction::right)
+    {
+        alpha_deg = dalpha_rad * 180 / pi;
+    }
+
+    sprite->rotate(-alpha_deg);
 
 
-        // if curveRadius == 0, only rotate
-        // else move and rotate accordingly
-
-
-
-        cout << "dx = " << dx << endl;
-        cout << "dy = " << dy << endl;
-
-
-        // origin to the left
-        cout << "curveRadius = " << curveRadius << endl;
-
-
-        cout << "alpha_deg = " << alpha_deg << endl;
-        cout << "alpha_rad = " << dalpha_rad << endl;
-        cout << "sprite->rotation() = " << sprite->getRotation() << endl;
-//
-//
-//    }
-//    else // getDirection() == car::direction::right
-//    {
-//        float curveRadius = right_l * axisLength / (left_l - right_l);
-//        float alpha       = right_l / curveRadius * 180 / pi;
-//        // origin to the right
-//        cout << "curveRadius = " << curveRadius << endl;
-//        cout << "alpha = " << alpha << endl;
-//    }
+    cout << "dx = " << dx << endl;
+    cout << "dy = " << dy << endl;
+    cout << "curveRadius = " << curveRadius << endl;
+    cout << "alpha_deg = " << alpha_deg << endl;
+    cout << "alpha_rad = " << dalpha_rad << endl;
+    cout << "sprite->rotation() = " << sprite->getRotation() << endl;
     cout << endl;
 }
 
