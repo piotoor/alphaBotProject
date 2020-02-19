@@ -1,15 +1,25 @@
 import RPi.GPIO as GPIO
 import time
 
+PINS = {
+	"IN1": 12,
+	"IN2": 13,
+	"IN3": 20,
+	"IN4": 21,
+	"ENA": 6,
+	"ENB": 26
+}
+
 class AlphaBot(object):
-	
-	def __init__(self,in1=12,in2=13,ena=6,in3=20,in4=21,enb=26):
-		self.IN1 = in1
-		self.IN2 = in2
-		self.IN3 = in3
-		self.IN4 = in4
-		self.ENA = ena
-		self.ENB = enb
+
+	#def __init__(self,in1=12,in2=13,ena=6,in3=20,in4=21,enb=26):
+	def __init__(self):
+		self.IN1 = PINS["IN1"]
+		self.IN2 = PINS["IN2"]
+		self.IN3 = PINS["IN3"]
+		self.IN4 = PINS["IN4"]
+		self.ENA = PINS["ENA"]
+		self.ENB = PINS["ENB"]
 
 		GPIO.setmode(GPIO.BCM)
 		GPIO.setwarnings(False)

@@ -36,6 +36,15 @@ class Simulator:
 
         pwmCode = str(pwm.type)
 
+        from AlphaBot import PINS
+
+        if pwm.type == PINS["ENA"]:
+            pwmCode = "A"
+        elif pwm.type == PINS["ENB"]:
+            pwmCode = "B"
+        else:
+            pwmCode = "N"
+
         msg = "updatePWM:"+pwmCode+":"+str(val)
 
         self.socket.send(msg.encode("utf-8"))
