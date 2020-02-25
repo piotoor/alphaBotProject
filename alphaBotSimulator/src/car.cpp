@@ -169,9 +169,19 @@ void car::update(sf::Time t)
         dalpha_rad = -leftDistance / (curveRadius + axisLength);
     }
 
-    float dx = rotatingTempSystemOriginX - (rotatingTempSystemOriginX * cos(dalpha_rad) + rotatingTempSystemOriginY*sin(dalpha_rad));
-    float dy = (-rotatingTempSystemOriginX * sin(dalpha_rad) + rotatingTempSystemOriginY * cos(dalpha_rad)) - rotatingTempSystemOriginY;
+    float dx = 0.0f;
+    float dy = 0.0f;
 
+    if(getDirection() == car::direction::left || getDirection() == car::direction::right)
+    {
+        dx =  rotatingTempSystemOriginX - (rotatingTempSystemOriginX * cos(dalpha_rad) + rotatingTempSystemOriginY*sin(dalpha_rad));
+        dy = (-rotatingTempSystemOriginX * sin(dalpha_rad) + rotatingTempSystemOriginY * cos(dalpha_rad)) - rotatingTempSystemOriginY;
+    }
+    else
+    {
+        dx = leftDistance * sin(sprite->getRotation() * PI / 180.0);
+        dy = -leftDistance * cos(sprite->getRotation() * PI / 180.0);
+    }
     // 3. apply deltas
     sprite->move(dx, dy);
 
