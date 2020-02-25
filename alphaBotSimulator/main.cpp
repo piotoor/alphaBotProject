@@ -24,7 +24,9 @@ int main()
     trackBuffer.create(width, height);
     trackBuffer.draw(*t.getVertices());
     trackBuffer.display();
-    sf::Image trackImage =  trackBuffer.getTexture().copyToImage();
+    sf::Image trackImage = trackBuffer.getTexture().copyToImage();
+
+    c.setTrackImage(&trackImage);
 
 //    sf::Sprite test;
 //    test.setTexture(trackBuffer.getTexture());
