@@ -19,6 +19,7 @@ class car
         float               getRightPower();
         std::vector<int>    getSensorValues();
         void                update(sf::Time t);
+        void                setTrackImage(sf::Image *trackImage);
 
 
     private:
@@ -30,8 +31,8 @@ class car
         };
 
         car::direction getDirection();
-
-        sf::Sprite          *sprite;
+        sf::Image   *trackImage;
+        sf::Sprite  *sprite;
 
         float   d;    // depr
         float   dir;  // depr
