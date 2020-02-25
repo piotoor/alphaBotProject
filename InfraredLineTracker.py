@@ -195,7 +195,7 @@ class InfraredLineTracker:
     def useSim(self, use):
         self.Ab.useIpc = True
         if use:
-            from Simulator import Simulator
+            from SimulatorProxy import SimulatorProxy
 
-            self.sim = Simulator()
+            self.sim = SimulatorProxy()
             self.Ab.sim = self.sim
