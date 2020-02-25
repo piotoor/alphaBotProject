@@ -32,8 +32,6 @@ class car
         car::direction getDirection();
 
         sf::Sprite          *sprite;
-        sf::Vector2<float>   v; // depr ?
-        sf::Vector2<float>   curveOrigin;
 
         float   d;    // depr
         float   dir;  // depr

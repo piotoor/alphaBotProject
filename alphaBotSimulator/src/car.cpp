@@ -18,7 +18,6 @@ car::car():d(4.2f), dir(1.0f),
     sprite->setTexture(*assets::getTexture("car"));
     sprite->setScale(0.2f, 0.2f);
     sprite->setOrigin(assets::getTexture("car")->getSize().x / 2.0, assets::getTexture("car")->getSize().y / 2.0);
-    curveOrigin = sprite->getPosition();
 }
 
 car::~car()
