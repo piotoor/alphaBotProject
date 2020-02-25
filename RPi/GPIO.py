@@ -23,7 +23,7 @@ class PWM:
     def ChangeDutyCycle_ipc(self,sim, val):
         #TODO - implement ipc for communication between simulator and script
 
-        from  Simulator import Simulator
+        from  SimulatorProxy import SimulatorProxy
 
         sim.updatePWM(self.type, val)
         pass

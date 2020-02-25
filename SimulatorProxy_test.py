@@ -1,5 +1,5 @@
 import unittest
-import Simulator as Simulator
+import SimulatorProxy as Simulator
 import AlphaBot
 
 #Run with ./serverTest.py
@@ -9,7 +9,7 @@ class TRSensor_Test(unittest.TestCase):
         pass
 
     def test_getValues(self):
-        sim = Simulator.Simulator()
+        sim = Simulator.SimulatorProxy()
         vals = sim.getSensorValues()
 
         valsString = [str(i) for i in vals]
@@ -23,7 +23,7 @@ class TRSensor_Test(unittest.TestCase):
 
     def test_updatePWM(self):
         ab = AlphaBot.AlphaBot()
-        sim = Simulator.Simulator()
+        sim = Simulator.SimulatorProxy()
 
         pval = 50
 
@@ -44,7 +44,7 @@ class TRSensor_Test(unittest.TestCase):
     def test_parseGetSensorValsMsg(self):
         print("test_parseGetSensorValsMsg")
 
-        sim = Simulator.Simulator()
+        sim = Simulator.SimulatorProxy()
 
         msg = "getSensorValsRsp:0,0,0,0,0"
         result = sim.parseGetSensorValsMsg(msg)

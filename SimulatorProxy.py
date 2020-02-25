@@ -1,7 +1,7 @@
 import zmq
 
 
-class Simulator:
+class SimulatorProxy:
 
     def __init__(self):
         #self.rspSocket = self.context.socket(zmq.REP)
@@ -35,6 +35,15 @@ class Simulator:
         #TODO implement IPC
 
         pwmCode = str(pwm.type)
+
+        from AlphaBot import PINS
+
+        if pwm.type == PINS["ENA"]:
+            pwmCode = "A"
+        elif pwm.type == PINS["ENB"]:
+            pwmCode = "B"
+        else:
+            pwmCode = "N"
 
         msg = "updatePWM:"+pwmCode+":"+str(val)
 
