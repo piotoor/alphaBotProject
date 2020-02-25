@@ -42,7 +42,6 @@ void car::onKeyPressed(sf::Time t)
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
         dir = 1.0f;
-        //sprite->move(d * sin(sprite->getRotation() * PI / 180.0), -d * cos(sprite->getRotation() * PI / 180.0));
         sprite->move(d * sin(sprite->getRotation() * PI / 180.0), -d * cos(sprite->getRotation() * PI / 180.0));
     }
 
