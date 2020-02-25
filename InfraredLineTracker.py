@@ -4,7 +4,6 @@ import pid
 from TRSensor import TRSensor
 from AlphaBot import AlphaBot
 from TRSensor import STATE
-from Simulator import Simulator
 
 class InfraredLineTracker:
     def __init__(self):
@@ -25,7 +24,7 @@ class InfraredLineTracker:
         #TEMP test route correction algorithm
         self.testRunWithTestCorrection = False
 
-        self.sim = Simulator()
+        self.sim = None
 
     def run(self, numberOfIterations=-1):
 
@@ -196,4 +195,7 @@ class InfraredLineTracker:
     def useSim(self, use):
         self.Ab.useIpc = True
         if use:
+            from Simulator import Simulator
+
+            self.sim = Simulator()
             self.Ab.sim = self.sim
