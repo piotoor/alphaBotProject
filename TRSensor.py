@@ -45,6 +45,10 @@ class TRSensor(object):
         #TODO - temp
         self.currentState = STATE.onTrack
 
+    def setPrecalculatedCalibrationValues(self, calibratedMin, calibratedMax):
+        self.calibratedMin = calibratedMin
+        self.calibratedMax = calibratedMax
+
     """
     Reads the sensor values into an array. There *MUST* be space
     for as many values as there were sensors specified in the constructor.

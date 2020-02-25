@@ -12,7 +12,7 @@ assets::~assets()
     //dtor
 }
 
-sf::Texture* assets::getTexture(std::string name)
+sf::Texture* assets::getTexture(const std::string name)
 {
     return textures[name];
 }
