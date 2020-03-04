@@ -4,6 +4,8 @@ import pid
 from TRSensor import TRSensor
 from AlphaBot import AlphaBot
 from TRSensor import STATE
+from States import state, stateHistory
+
 
 class InfraredLineTracker:
     def __init__(self):
@@ -23,6 +25,10 @@ class InfraredLineTracker:
 
         #TEMP test route correction algorithm
         self.testRunWithTestCorrection = False
+
+        self.STATE_HISTORY_PERIOD = 100
+        #self.state_history = collections.deque(maxlen=100)
+        self.state_history = stateHistory(self.STATE_HISTORY_PERIOD)
 
         self.sim = None
 
@@ -55,6 +61,11 @@ class InfraredLineTracker:
                 self.Ab.setPWMA(pwmaPower)
 
                 iterationCount = iterationCount-1
+
+
+ #               if (self.iteration + 1) % self.STATE_HISTORY_PERIOD == 0:
+                #self.state_history.append(state(pwmaPower, pwmbPower))
+                self.state_history.add(pwmaPower, pwmbPower)
 
                 #when numberOfIterations == -1 then run indefinitely
                 if iterationCount<0 and numberOfIterations != -1:

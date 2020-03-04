@@ -1,6 +1,4 @@
 import RPi.GPIO as GPIO
-from States import state
-import collections
 
 from enum import Enum
 
@@ -18,8 +16,8 @@ class TRSensor(object):
     DataOut = 23
 
 
-    def __init__(self, numSensors=5, stateHistoryPeriod = 100):
-
+    #def __init__(self, numSensors=5, stateHistoryPeriod = 100):
+    def __init__(self, numSensors=5):
 
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
@@ -39,8 +37,8 @@ class TRSensor(object):
 
         #self.currentState = STATE.outOfTrack
 
-        self.STATE_HISTORY_PERIOD = stateHistoryPeriod
-        self.state_history = collections.deque(maxlen=100)
+#        self.STATE_HISTORY_PERIOD = stateHistoryPeriod
+#        self.state_history = collections.deque(maxlen=100)
 
         #TODO - temp
         self.currentState = STATE.onTrack
@@ -180,9 +178,9 @@ class TRSensor(object):
 
         sensor_values = self.readCalibrated(sensor_values)
 
-        if (self.iteration + 1) % self.STATE_HISTORY_PERIOD == 0:
-            self.state_history.append(state(self.currentState, sensor_values))
-
+#        if (self.iteration + 1) % self.STATE_HISTORY_PERIOD == 0:
+#            self.state_history.append(state(self.currentState, sensor_values))
+#
         self.iteration = self.iteration+1
 
 
