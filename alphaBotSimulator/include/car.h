@@ -46,9 +46,9 @@ class car
         float   rightAngularVelocity;
         bool    forwards;
         bool    updatedPower;
+        float   axisLength;
+        float  wheelRadius;
 
-        static constexpr float  wheelRadius = 10.0f;
-        static constexpr float  axisLength  = 100.0f;
         static constexpr float  pi          = 3.1415926f;
         static constexpr float  epsilon     = 0.1f;
 };
