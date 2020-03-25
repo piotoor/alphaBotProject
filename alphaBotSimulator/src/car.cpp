@@ -14,7 +14,8 @@ car::car():d(4.2f), dir(1.0f),
                     rightAngularVelocity(0.0f),
                     updatedPower(false)
 {
-    sprite = new sf::Sprite;
+    //sprite = new sf::Sprite;
+    sprite = std::make_unique<sf::Sprite>();
     sprite->setTexture(*assets::getTexture("car"));
     sprite->setScale(0.2f, 0.2f);
     sprite->setOrigin(assets::getTexture("car")->getSize().x / 2.0, assets::getTexture("car")->getSize().y / 2.0);
@@ -25,7 +26,7 @@ car::car():d(4.2f), dir(1.0f),
 
 car::~car()
 {
-    delete sprite;
+
 }
 
 void car::onKeyPressed(sf::Time t)
@@ -89,7 +90,7 @@ void car::onKeyPressed(sf::Time t)
 
 sf::Sprite *car::getSprite()
 {
-    return this->sprite;
+    return this->sprite.get();
 }
 
 float car::getRightPower()
@@ -203,6 +204,7 @@ void car::update(sf::Time t)
     sprite->rotate(-alpha_deg);
 
 
+    cout << "trackImage.use_count: " << trackImage.use_count() << endl;
     cout << "dx = " << dx << endl;
     cout << "dy = " << dy << endl;
     cout << "curveRadius = " << curveRadius << endl;
@@ -230,7 +232,7 @@ car::direction car::getDirection()
     }
 }
 
-void car::setTrackImage(sf::Image *trackImage)
+void car::setTrackImage(std::shared_ptr<sf::Image> trackImage)
 {
     this->trackImage = trackImage;
 }

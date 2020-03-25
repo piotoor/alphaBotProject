@@ -5,6 +5,7 @@
 #include <map>
 #include <string>
 #include <iostream>
+#include <memory>
 
 class assets
 {
@@ -16,7 +17,7 @@ class assets
         static void disposeTextures();
 
     protected:
-        static std::map<std::string, sf::Texture*> textures;
+        static std::map<std::string, std::unique_ptr<sf::Texture>> textures;
 
 };
 

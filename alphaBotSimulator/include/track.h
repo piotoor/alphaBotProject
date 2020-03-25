@@ -2,6 +2,7 @@
 #define TRACK_H
 
 #include <SFML/Graphics.hpp>
+#include <memory>
 
 #include "SingleCurveGenerator.h"
 #include "assets.h"
@@ -10,7 +11,7 @@
 class track
 {
     public:
-        enum trackType
+        enum class trackType
         {
             DEFAULT,
             RANDOM,
@@ -23,8 +24,8 @@ class track
         sf::VertexArray *getVertices();
 
     protected:
-        sf::VertexArray *vertexArray;
-        SingleCurveGenerator *scg;
+        std::unique_ptr<sf::VertexArray> vertexArray;
+        std::unique_ptr<SingleCurveGenerator> scg;
 
     private:
         std::vector<Point> trackPoints;

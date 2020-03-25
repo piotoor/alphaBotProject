@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <cmath>
+#include <memory>
 
 #include "assets.h"
 
@@ -19,7 +20,7 @@ class car
         float               getRightPower();
         std::vector<int>    getSensorValues();
         void                update(sf::Time t);
-        void                setTrackImage(sf::Image *trackImage);
+        void                setTrackImage(std::shared_ptr<sf::Image> trackImage);
 
 
     private:
@@ -31,8 +32,8 @@ class car
         };
 
         car::direction getDirection();
-        sf::Image   *trackImage;
-        sf::Sprite  *sprite;
+        std::shared_ptr<sf::Image>   trackImage;
+        std::unique_ptr<sf::Sprite>  sprite;
 
         float   d;    // depr
         float   dir;  // depr
@@ -47,7 +48,7 @@ class car
         bool    forwards;
         bool    updatedPower;
         float   axisLength;
-        float  wheelRadius;
+        float   wheelRadius;
 
         static constexpr float  pi          = 3.1415926f;
         static constexpr float  epsilon     = 0.1f;

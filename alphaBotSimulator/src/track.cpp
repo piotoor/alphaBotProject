@@ -5,7 +5,8 @@ track::track(trackType type, const std::vector<Point> *controlPoints)
     if(type == trackType::DEFAULT)
     {
         int segm = 80;
-        scg = new SingleCurveGenerator(segm,
+        scg = std::make_unique<SingleCurveGenerator>(segm,
+        std::vector<Point>
         {
             std::make_pair(110.21, 210.324),
             std::make_pair(10.23, 10.11),
@@ -20,11 +21,11 @@ track::track(trackType type, const std::vector<Point> *controlPoints)
     else if (type == trackType::DEFINED)
     {
         int segm = 80;
-        scg = new SingleCurveGenerator(segm, *controlPoints);
+        scg = std::make_unique<SingleCurveGenerator>(segm, *controlPoints);
     }
 
     trackPoints = scg-> Bezier2DTriangleStrip(15.0f);
-    vertexArray = new sf::VertexArray(sf::TriangleStrip, trackPoints.size());
+    vertexArray = std::make_unique<sf::VertexArray>(sf::TriangleStrip, trackPoints.size());
 
     for(size_t i = 0; i < trackPoints.size(); i++)
     {
@@ -36,11 +37,9 @@ track::track(trackType type, const std::vector<Point> *controlPoints)
 
 track::~track()
 {
-    delete scg;
-    delete vertexArray;
 }
 
 sf::VertexArray* track::getVertices()
 {
-    return vertexArray;
+    return vertexArray.get();
 }

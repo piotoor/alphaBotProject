@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <cmath>
+#include <memory>
 
 #include "assets.h"
 #include "car.h"
@@ -24,12 +25,9 @@ int main()
     trackBuffer.create(width, height);
     trackBuffer.draw(*t.getVertices());
     trackBuffer.display();
-    sf::Image trackImage = trackBuffer.getTexture().copyToImage();
 
-    c.setTrackImage(&trackImage);
-
-//    sf::Sprite test;
-//    test.setTexture(trackBuffer.getTexture());
+    auto trackImage = std::make_shared<sf::Image> (trackBuffer.getTexture().copyToImage());
+    c.setTrackImage(trackImage);
 
     while (window.isOpen())
     {
@@ -47,12 +45,10 @@ int main()
 
         window.clear();
         window.draw(*t.getVertices());
-//        window.draw(test);
         window.draw(*c.getSprite());
         window.display();
     }
 
-    assets::disposeTextures();
 
     return 0;
 }
