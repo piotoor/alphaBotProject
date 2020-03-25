@@ -30,6 +30,8 @@ class InfraredLineTracker:
         #self.state_history = collections.deque(maxlen=100)
         self.state_history = stateHistory(self.STATE_HISTORY_PERIOD)
 
+        self.reverseBasedOnHistory = False
+
         self.sim = None
 
     def run(self, numberOfIterations=-1):
@@ -54,28 +56,34 @@ class InfraredLineTracker:
             iterationCount = numberOfIterations
 
             while True:
-                position = self.TR.readLine(self.readSensorValues())
-                pwmaPower, pwmbPower = self.calculatePowerUpdate(position)
 
-                self.Ab.setPWMB(pwmbPower)
-                self.Ab.setPWMA(pwmaPower)
+                if not self.reverseBasedOnHistory:
+                    position = self.TR.readLine(self.readSensorValues())
+                    pwmaPower, pwmbPower = self.calculatePowerUpdate(position)
 
-                iterationCount = iterationCount-1
+                    self.Ab.setPWMB(pwmbPower)
+                    self.Ab.setPWMA(pwmaPower)
+
+                    iterationCount = iterationCount-1
 
 
- #               if (self.iteration + 1) % self.STATE_HISTORY_PERIOD == 0:
-                #self.state_history.append(state(pwmaPower, pwmbPower))
-                self.state_history.add(pwmaPower, pwmbPower)
+     #               if (self.iteration + 1) % self.STATE_HISTORY_PERIOD == 0:
+                    #self.state_history.append(state(pwmaPower, pwmbPower))
+                    self.state_history.add(pwmaPower, pwmbPower)
 
-                #when numberOfIterations == -1 then run indefinitely
-                if iterationCount<0 and numberOfIterations != -1:
-                    print("if iterationCount<0 and numberOfIterations != -1:  BREAK")
-                    break
+                    #when numberOfIterations == -1 then run indefinitely
+                    if iterationCount<0 and numberOfIterations != -1:
+                        print("if iterationCount<0 and numberOfIterations != -1:  BREAK")
+                        break
 
-                if self.TR.currentState == STATE.outOfTrack:
-                    #try to get back based on history
-                    print ("if self.TR.currentState == STATE.outOfTrack: IGNORE")
-                    pass
+                    if self.TR.currentState == STATE.outOfTrack:
+                        #try to get back based on history
+                        print ("if self.TR.currentState == STATE.outOfTrack: IGNORE")
+                        pass
+
+                else:
+                    numberOfStepsToRetrace = 10
+                    self.retraceRouteBasedOnHistory(10)
 
     def runWithRouteCorrection(self, numberOfIterations=-1):
         print("Line follow Example")
@@ -149,6 +157,12 @@ class InfraredLineTracker:
 
                 powerReversed = False
                 print("GSDEBUG ONTRACK--------------------------------------")
+
+
+    def retraceRouteBasedOnHistory(self, numerOfStatesToRetrace):
+        self.Ab.forward()
+
+        #TODO
 
 
     def calculatePowerUpdate(self, position):
