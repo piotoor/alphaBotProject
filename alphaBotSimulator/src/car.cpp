@@ -149,14 +149,12 @@ void car::update(sf::Time t)
         curveRadius   = max(axisLength / 2, abs(leftDistance * axisLength / (rightDistance - leftDistance)));
         spriteRotationRad = (360.0f - sprite->getRotation()) * pi / 180.0f;
         rotatingTempSystemOriginX = curveRadius * cos(spriteRotationRad);
-        //rotatingTempSystemOriginX -= (axisLength / 2.0f);
     }
     else if(getDirection() == car::direction::right)
     {
         curveRadius   = max(axisLength / 2, abs(rightDistance * axisLength / (leftDistance - rightDistance)));
         spriteRotationRad = -(360.0f - sprite->getRotation()) * pi / 180.0f;
         rotatingTempSystemOriginX = -curveRadius * cos(spriteRotationRad);
-        //rotatingTempSystemOriginX += (axisLength / 2.0f);
     }
 
     float rotatingTempSystemOriginY = curveRadius * sin(spriteRotationRad);
