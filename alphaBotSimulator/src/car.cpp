@@ -18,7 +18,7 @@ car::car():d(4.2f), dir(1.0f),
     sprite = std::make_unique<sf::Sprite>();
     sprite->setTexture(*assets::getTexture("car"));
     sprite->setScale(0.2f, 0.2f);
-    sprite->setOrigin(assets::getTexture("car")->getSize().x / 2.0, assets::getTexture("car")->getSize().y / 2.0);
+    sprite->setOrigin(assets::getTexture("car")->getSize().x / 2.0, assets::getTexture("car")->getSize().y * 3.0 / 4.0);
 
     axisLength = sprite->getTexture()->getSize().x * sprite->getScale().x;
     wheelRadius = 92 * sprite->getScale().y;
@@ -146,14 +146,14 @@ void car::update(sf::Time t)
 
     if(getDirection() == car::direction::left)
     {
-        curveRadius   = abs(leftDistance * axisLength / (rightDistance - leftDistance));
+        curveRadius   = max(axisLength / 2, abs(leftDistance * axisLength / (rightDistance - leftDistance)));
         spriteRotationRad = (360.0f - sprite->getRotation()) * pi / 180.0f;
         rotatingTempSystemOriginX = curveRadius * cos(spriteRotationRad);
         //rotatingTempSystemOriginX -= (axisLength / 2.0f);
     }
     else if(getDirection() == car::direction::right)
     {
-        curveRadius   = abs(rightDistance * axisLength / (leftDistance - rightDistance));
+        curveRadius   = max(axisLength / 2, abs(rightDistance * axisLength / (leftDistance - rightDistance)));
         spriteRotationRad = -(360.0f - sprite->getRotation()) * pi / 180.0f;
         rotatingTempSystemOriginX = -curveRadius * cos(spriteRotationRad);
         //rotatingTempSystemOriginX += (axisLength / 2.0f);
