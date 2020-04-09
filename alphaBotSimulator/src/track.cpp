@@ -1,6 +1,6 @@
 #include "track.h"
 
-track::track(trackType type, const std::vector<Point> *controlPoints)
+track::track(int width, int height, trackType type, const std::vector<Point> *controlPoints):width(width), height(height)
 {
     if(type == trackType::DEFAULT)
     {
@@ -33,6 +33,11 @@ track::track(trackType type, const std::vector<Point> *controlPoints)
         (*vertexArray)[i].color = sf::Color::Red;
     }
 
+    trackBuffer.create(width, height);
+    trackBuffer.draw(*getVertices());
+    trackBuffer.display();
+    trackImage = std::make_shared<sf::Image>(trackBuffer.getTexture().copyToImage());
+
 }
 
 track::~track()
@@ -42,4 +47,9 @@ track::~track()
 sf::VertexArray* track::getVertices()
 {
     return vertexArray.get();
+}
+
+std::shared_ptr<sf::Image> track::getTrackImage()
+{
+    return trackImage;
 }

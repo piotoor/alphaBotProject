@@ -8,8 +8,8 @@
 #include "track.h"
 #include "SingleCurveGenerator.h"
 
-int width = 1200;
-int height = 800;
+constexpr int width = 1200;
+constexpr int height = 800;
 
 int main()
 {
@@ -19,15 +19,8 @@ int main()
     sf::Clock clock;
     assets::loadTextures("assets");
     car c;
-    track t;
-
-    sf::RenderTexture trackBuffer;
-    trackBuffer.create(width, height);
-    trackBuffer.draw(*t.getVertices());
-    trackBuffer.display();
-
-    auto trackImage = std::make_shared<sf::Image> (trackBuffer.getTexture().copyToImage());
-    c.setTrackImage(trackImage);
+    track t(width, height);
+    c.setTrackImage(t.getTrackImage());
 
     while (window.isOpen())
     {

@@ -19,16 +19,22 @@ class track
         };
 
     public:
-        track(trackType type = trackType::DEFAULT, const std::vector<Point> *controlPoints = nullptr);
+        track(int width, int height, trackType type = trackType::DEFAULT, const std::vector<Point> *controlPoints = nullptr);
         virtual ~track();
         sf::VertexArray *getVertices();
+        std::shared_ptr<sf::Image> getTrackImage();
 
     protected:
         std::unique_ptr<sf::VertexArray> vertexArray;
         std::unique_ptr<SingleCurveGenerator> scg;
 
     private:
-        std::vector<Point> trackPoints;
+        std::vector<Point>          trackPoints;
+        sf::RenderTexture           trackBuffer;
+        std::shared_ptr<sf::Image>  trackImage;
+
+        int width;
+        int height;
 
 
 };

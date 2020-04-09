@@ -6,6 +6,7 @@
 #include <memory>
 
 #include "assets.h"
+#include "sensorMatrix.h"
 
 class car
 {
@@ -34,6 +35,8 @@ class car
         car::direction getDirection();
         std::shared_ptr<sf::Image>   trackImage;
         std::unique_ptr<sf::Sprite>  sprite;
+
+        sensorMatrix sensors;
 
         float   d;    // depr
         float   dir;  // depr
