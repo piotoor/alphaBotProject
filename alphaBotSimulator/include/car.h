@@ -19,6 +19,7 @@ class car
         float               getRightPower();
         std::vector<int>    getSensorValues();
         void                update(sf::Time t);
+        void                setTrackImage(sf::Image *trackImage);
 
 
     private:
@@ -30,10 +31,8 @@ class car
         };
 
         car::direction getDirection();
-
-        sf::Sprite          *sprite;
-        sf::Vector2<float>   v; // depr ?
-        sf::Vector2<float>   curveOrigin;
+        sf::Image   *trackImage;
+        sf::Sprite  *sprite;
 
         float   d;    // depr
         float   dir;  // depr
@@ -47,9 +46,9 @@ class car
         float   rightAngularVelocity;
         bool    forwards;
         bool    updatedPower;
+        float   axisLength;
+        float  wheelRadius;
 
-        static constexpr float  wheelRadius = 10.0f;
-        static constexpr float  axisLength  = 100.0f;
         static constexpr float  pi          = 3.1415926f;
         static constexpr float  epsilon     = 0.1f;
 };

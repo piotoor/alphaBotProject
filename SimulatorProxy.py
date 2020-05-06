@@ -1,7 +1,7 @@
 import zmq
 
 
-class Simulator:
+class SimulatorProxy:
 
     def __init__(self):
         #self.rspSocket = self.context.socket(zmq.REP)

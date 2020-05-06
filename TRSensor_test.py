@@ -43,12 +43,12 @@ class TRSensor_Test(unittest.TestCase):
         self.assertEqual(TR.iteration, 3)
 
 
-    def test_record_state(self):
-        sensor_values = [0, 0, 0, 0, 0]
-        TR = TRSensor.TRSensor()
-        TR.STATE_HISTORY_PERIOD = 1
-        TR.readLine(sensor_values)
-        self.assertEqual(len(TR.state_history), 1)
+    # def test_record_state(self):
+    #     sensor_values = [0, 0, 0, 0, 0]
+    #     TR = TRSensor.TRSensor()
+    #     TR.STATE_HISTORY_PERIOD = 1
+    #     TR.readLine(sensor_values)
+    #     self.assertEqual(len(TR.state_history), 1)
 
     def test_isOutsideOfTrack(self):
 

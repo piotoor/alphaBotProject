@@ -20,6 +20,17 @@ int main()
     car c;
     track t;
 
+    sf::RenderTexture trackBuffer;
+    trackBuffer.create(width, height);
+    trackBuffer.draw(*t.getVertices());
+    trackBuffer.display();
+    sf::Image trackImage = trackBuffer.getTexture().copyToImage();
+
+    c.setTrackImage(&trackImage);
+
+//    sf::Sprite test;
+//    test.setTexture(trackBuffer.getTexture());
+
     while (window.isOpen())
     {
         sf::Event event;
@@ -33,8 +44,10 @@ int main()
         c.onKeyPressed(elapsed);
         c.update(elapsed);
 
+
         window.clear();
         window.draw(*t.getVertices());
+//        window.draw(test);
         window.draw(*c.getSprite());
         window.display();
     }

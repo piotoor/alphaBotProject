@@ -18,7 +18,9 @@ car::car():d(4.2f), dir(1.0f),
     sprite->setTexture(*assets::getTexture("car"));
     sprite->setScale(0.2f, 0.2f);
     sprite->setOrigin(assets::getTexture("car")->getSize().x / 2.0, assets::getTexture("car")->getSize().y / 2.0);
-    curveOrigin = sprite->getPosition();
+
+    axisLength = sprite->getTexture()->getSize().x * sprite->getScale().x;
+    wheelRadius = 92 * sprite->getScale().y;
 }
 
 car::~car()
@@ -42,7 +44,6 @@ void car::onKeyPressed(sf::Time t)
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
         dir = 1.0f;
-        //sprite->move(d * sin(sprite->getRotation() * PI / 180.0), -d * cos(sprite->getRotation() * PI / 180.0));
         sprite->move(d * sin(sprite->getRotation() * PI / 180.0), -d * cos(sprite->getRotation() * PI / 180.0));
     }
 
@@ -141,17 +142,20 @@ void car::update(sf::Time t)
     float spriteRotationRad = 0.0f;
     float rotatingTempSystemOriginX = 0.0f;
 
+
     if(getDirection() == car::direction::left)
     {
         curveRadius   = abs(leftDistance * axisLength / (rightDistance - leftDistance));
         spriteRotationRad = (360.0f - sprite->getRotation()) * pi / 180.0f;
         rotatingTempSystemOriginX = curveRadius * cos(spriteRotationRad);
+        //rotatingTempSystemOriginX -= (axisLength / 2.0f);
     }
     else if(getDirection() == car::direction::right)
     {
         curveRadius   = abs(rightDistance * axisLength / (leftDistance - rightDistance));
         spriteRotationRad = -(360.0f - sprite->getRotation()) * pi / 180.0f;
         rotatingTempSystemOriginX = -curveRadius * cos(spriteRotationRad);
+        //rotatingTempSystemOriginX += (axisLength / 2.0f);
     }
 
     float rotatingTempSystemOriginY = curveRadius * sin(spriteRotationRad);
@@ -169,9 +173,19 @@ void car::update(sf::Time t)
         dalpha_rad = -leftDistance / (curveRadius + axisLength);
     }
 
-    float dx = rotatingTempSystemOriginX - (rotatingTempSystemOriginX * cos(dalpha_rad) + rotatingTempSystemOriginY*sin(dalpha_rad));
-    float dy = (-rotatingTempSystemOriginX * sin(dalpha_rad) + rotatingTempSystemOriginY * cos(dalpha_rad)) - rotatingTempSystemOriginY;
+    float dx = 0.0f;
+    float dy = 0.0f;
 
+    if(getDirection() == car::direction::left || getDirection() == car::direction::right)
+    {
+        dx =  rotatingTempSystemOriginX - (rotatingTempSystemOriginX * cos(dalpha_rad) + rotatingTempSystemOriginY*sin(dalpha_rad));
+        dy = (-rotatingTempSystemOriginX * sin(dalpha_rad) + rotatingTempSystemOriginY * cos(dalpha_rad)) - rotatingTempSystemOriginY;
+    }
+    else
+    {
+        dx = leftDistance * sin(sprite->getRotation() * PI / 180.0);
+        dy = -leftDistance * cos(sprite->getRotation() * PI / 180.0);
+    }
     // 3. apply deltas
     sprite->move(dx, dy);
 
@@ -195,6 +209,8 @@ void car::update(sf::Time t)
     cout << "alpha_deg = " << alpha_deg << endl;
     cout << "alpha_rad = " << dalpha_rad << endl;
     cout << "sprite->rotation() = " << sprite->getRotation() << endl;
+    sf::Color trackPixel = trackImage->getPixel(sprite->getPosition().x, sprite->getPosition().y);
+    cout << "temporary sensor values: (" << (int)trackPixel.r << " , " << (int)trackPixel.g << " , " << (int)trackPixel.b << ")" << endl;
     cout << endl;
 }
 
@@ -212,5 +228,10 @@ car::direction car::getDirection()
     {
         return car::direction::right;
     }
+}
+
+void car::setTrackImage(sf::Image *trackImage)
+{
+    this->trackImage = trackImage;
 }
 
