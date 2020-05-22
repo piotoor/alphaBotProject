@@ -202,15 +202,15 @@ void car::update(sf::Time t)
     sprite->rotate(-alpha_deg);
 
 
-    cout << "trackImage.use_count: " << trackImage.use_count() << endl;
+    //cout << "trackImage.use_count: " << trackImage.use_count() << endl;
     cout << "dx = " << dx << endl;
     cout << "dy = " << dy << endl;
     cout << "curveRadius = " << curveRadius << endl;
     cout << "alpha_deg = " << alpha_deg << endl;
     cout << "alpha_rad = " << dalpha_rad << endl;
     cout << "sprite->rotation() = " << sprite->getRotation() << endl;
-    sf::Color trackPixel = trackImage->getPixel(sprite->getPosition().x, sprite->getPosition().y);
-    cout << "temporary sensor values: (" << (int)trackPixel.r << " , " << (int)trackPixel.g << " , " << (int)trackPixel.b << ")" << endl;
+    //sf::Color trackPixel = trackImage->getPixel(sprite->getPosition().x, sprite->getPosition().y);
+    //cout << "temporary sensor values: (" << (int)trackPixel.r << " , " << (int)trackPixel.g << " , " << (int)trackPixel.b << ")" << endl;
     cout << endl;
 }
 
@@ -232,6 +232,6 @@ car::direction car::getDirection()
 
 void car::setTrackImage(std::shared_ptr<sf::Image> trackImage)
 {
-    this->trackImage = trackImage;
+    this->sensors.setTrackImage(trackImage);
 }
 

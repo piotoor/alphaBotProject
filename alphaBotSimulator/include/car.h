@@ -33,7 +33,6 @@ class car
         };
 
         car::direction getDirection();
-        std::shared_ptr<sf::Image>   trackImage;
         std::unique_ptr<sf::Sprite>  sprite;
 
         sensorMatrix sensors;
