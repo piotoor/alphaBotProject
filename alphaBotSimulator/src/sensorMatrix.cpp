@@ -14,26 +14,27 @@ sensorMatrix::~sensorMatrix()
 
 std::vector<int>& sensorMatrix::getSensorValues()
 {
-    float  carSpriteWidth = carSprite->getTexture()->getSize().x * carSprite->getScale().x;
-    float carSpriteHeight = carSprite->getTexture()->getSize().y * carSprite->getScale().y;
+    const float  carSpriteWidth = carSprite->getTexture()->getSize().x * carSprite->getScale().x;
+    const float carSpriteHeight = carSprite->getTexture()->getSize().y * carSprite->getScale().y;
 
-    float sensorSide = 0.075f * carSpriteWidth;
-    float padding = 0.16f * carSpriteWidth;
+    const float sensorSide = 0.075f * carSpriteWidth;
+    const float padding = 0.16f * carSpriteWidth;
 
-    sf::Vector2f carPos = carSprite->getPosition();
+    const sf::Vector2f carPos = carSprite->getPosition();
     std::vector<std::pair<float, float>> sensorCenters(5);
 
-    float spriteRotationDeg = carSprite->getRotation();
-    float spriteRotationRad = 3.14159 * spriteRotationDeg / 180;
+    const float spriteRotationDeg = carSprite->getRotation();
+    const float spriteRotationRad = 3.14159 * spriteRotationDeg / 180;
+
     for (int i = 0; i < 5; ++i)
     {
-        float posX = carPos.x - carSpriteWidth / 2.0f + padding + sensorSide * i * 2 + sensorSide / 2;
-        float posY = carPos.y - 3 * carSpriteHeight / 4 + sensorSide / 2;
-        float relativeX = posX - carPos.x;
-        float relativeY = posY - carPos.y;
+        const float posX = carPos.x - carSpriteWidth / 2.0f + padding + sensorSide * i * 2 + sensorSide / 2;
+        const float posY = carPos.y - 3 * carSpriteHeight / 4 + sensorSide / 2;
+        const float relativeX = posX - carPos.x;
+        const float relativeY = posY - carPos.y;
 
-        float relativeDeltaX = relativeX * cos(spriteRotationRad) - relativeY * sin(spriteRotationRad);
-        float relativeDeltaY = relativeX * sin(spriteRotationRad) + relativeY * cos(spriteRotationRad);
+        const float relativeDeltaX = relativeX * cos(spriteRotationRad) - relativeY * sin(spriteRotationRad);
+        const float relativeDeltaY = relativeX * sin(spriteRotationRad) + relativeY * cos(spriteRotationRad);
 
         sensorCenters[i] = std::make_pair(carPos.x + relativeDeltaX,
                                           carPos.y + relativeDeltaY);
