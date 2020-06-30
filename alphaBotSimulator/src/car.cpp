@@ -202,8 +202,6 @@ void car::update(sf::Time t)
 
     sprite->rotate(-alpha_deg);
 
-
-    //cout << "trackImage.use_count: " << trackImage.use_count() << endl;
     cout << "dx = " << dx << endl;
     cout << "dy = " << dy << endl;
     cout << "curveRadius = " << curveRadius << endl;
