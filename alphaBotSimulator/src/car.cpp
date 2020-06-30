@@ -15,13 +15,14 @@ car::car():d(4.2f), dir(1.0f),
                     updatedPower(false)
 {
     //sprite = new sf::Sprite;
-    sprite = std::make_unique<sf::Sprite>();
+    sprite = std::make_shared<sf::Sprite>();
     sprite->setTexture(*assets::getTexture("car"));
     sprite->setScale(0.2f, 0.2f);
     sprite->setOrigin(assets::getTexture("car")->getSize().x / 2.0, assets::getTexture("car")->getSize().y * 3.0 / 4.0);
-
+    sprite->setPosition(400.0f, 400.0f);
     axisLength = sprite->getTexture()->getSize().x * sprite->getScale().x;
     wheelRadius = 92 * sprite->getScale().y;
+    sensors.setCarSprite(sprite);
 }
 
 car::~car()
@@ -211,6 +212,8 @@ void car::update(sf::Time t)
     cout << "sprite->rotation() = " << sprite->getRotation() << endl;
     //sf::Color trackPixel = trackImage->getPixel(sprite->getPosition().x, sprite->getPosition().y);
     //cout << "temporary sensor values: (" << (int)trackPixel.r << " , " << (int)trackPixel.g << " , " << (int)trackPixel.b << ")" << endl;
+    cout << "Sensor values: " << endl;
+    sensors.getSensorValues();
     cout << endl;
 }
 
