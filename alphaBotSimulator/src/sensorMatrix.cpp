@@ -40,9 +40,17 @@ std::vector<int>& sensorMatrix::getSensorValues()
                                           carPos.y + relativeDeltaY);
     }
 
-    for (const auto &x: sensorCenters) {
-        std:: cout << x.first << " " << x.second << std::endl;
+    //sf::Color trackPixel = trackImage->getPixel(sprite->getPosition().x, sprite->getPosition().y);
+    //cout << "temporary sensor values: (" << (int)trackPixel.r << " , " << (int)trackPixel.g << " , " << (int)trackPixel.b << ")" << endl;
+
+    const float halfSensorSide = sensorSide / 2.0f;
+
+    for (int i = 0; i < 5; ++i) {
+        std:: cout << sensorCenters[i].first << " " << sensorCenters[i].second << std::endl;
+
     }
+
+    // normalize
 
     return this->sensorValues;
 }
