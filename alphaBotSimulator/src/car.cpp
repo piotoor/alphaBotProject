@@ -208,8 +208,6 @@ void car::update(sf::Time t)
     cout << "alpha_deg = " << alpha_deg << endl;
     cout << "alpha_rad = " << dalpha_rad << endl;
     cout << "sprite->rotation() = " << sprite->getRotation() << endl;
-    //sf::Color trackPixel = trackImage->getPixel(sprite->getPosition().x, sprite->getPosition().y);
-    //cout << "temporary sensor values: (" << (int)trackPixel.r << " , " << (int)trackPixel.g << " , " << (int)trackPixel.b << ")" << endl;
     cout << "Sensor values: " << endl;
     sensors.getSensorValues();
     cout << endl;
