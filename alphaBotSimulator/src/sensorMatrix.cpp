@@ -47,10 +47,23 @@ std::vector<int>& sensorMatrix::getSensorValues()
 
     for (int i = 0; i < 5; ++i) {
         std:: cout << sensorCenters[i].first << " " << sensorCenters[i].second << std::endl;
-
+        float centX = sensorCenters[i].first;
+        float centY = sensorCenters[i].second;
+        sensorValues[i] = 0;
+        int total = 0;
+        for (float x = centX - halfSensorSide; x <= centX + halfSensorSide; x += 1.0f) {
+            for (float y = centY - halfSensorSide; y <= centY + halfSensorSide; y += 1.0f) {
+                sf::Color trackPixel = trackImage->getPixel(x, y);
+                sensorValues[i] += trackPixel.a;
+                ++total;
+            }
+        }
+        // normalization
+        sensorValues[i] /= total;
+        sensorValues[i] *= 4;
+        sensorValues[i] = 1024 - sensorValues[i];
+        std:: cout << sensorValues[i] << std::endl;
     }
-
-    // normalize
 
     return this->sensorValues;
 }
