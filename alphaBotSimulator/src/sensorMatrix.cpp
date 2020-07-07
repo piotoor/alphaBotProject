@@ -16,13 +16,10 @@ std::vector<int>& sensorMatrix::getSensorValues()
 {
     const float  carSpriteWidth = carSprite->getTexture()->getSize().x * carSprite->getScale().x;
     const float carSpriteHeight = carSprite->getTexture()->getSize().y * carSprite->getScale().y;
-
     const float sensorSide = 0.075f * carSpriteWidth;
     const float padding = 0.16f * carSpriteWidth;
-
     const sf::Vector2f carPos = carSprite->getPosition();
     std::vector<std::pair<float, float>> sensorCenters(5);
-
     const float spriteRotationDeg = carSprite->getRotation();
     const float spriteRotationRad = 3.14159 * spriteRotationDeg / 180;
 
@@ -32,16 +29,12 @@ std::vector<int>& sensorMatrix::getSensorValues()
         const float posY = carPos.y - 3 * carSpriteHeight / 4 + sensorSide / 2;
         const float relativeX = posX - carPos.x;
         const float relativeY = posY - carPos.y;
-
         const float relativeDeltaX = relativeX * cos(spriteRotationRad) - relativeY * sin(spriteRotationRad);
         const float relativeDeltaY = relativeX * sin(spriteRotationRad) + relativeY * cos(spriteRotationRad);
 
         sensorCenters[i] = std::make_pair(carPos.x + relativeDeltaX,
                                           carPos.y + relativeDeltaY);
     }
-
-    //sf::Color trackPixel = trackImage->getPixel(sprite->getPosition().x, sprite->getPosition().y);
-    //cout << "temporary sensor values: (" << (int)trackPixel.r << " , " << (int)trackPixel.g << " , " << (int)trackPixel.b << ")" << endl;
 
     const float halfSensorSide = sensorSide / 2.0f;
 
