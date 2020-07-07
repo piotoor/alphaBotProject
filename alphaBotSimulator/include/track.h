@@ -21,8 +21,8 @@ class track
     public:
         track(int width, int height, trackType type = trackType::DEFAULT, const std::vector<Point> *controlPoints = nullptr);
         virtual ~track();
-        sf::VertexArray *getVertices();
-        std::shared_ptr<sf::Image> getTrackImage();
+        sf::VertexArray *getVertices() const;
+        std::shared_ptr<sf::Image> getTrackImage() const;
 
     protected:
         std::unique_ptr<sf::VertexArray> vertexArray;

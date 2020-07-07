@@ -209,6 +209,7 @@ void car::update(sf::Time t)
     cout << "alpha_rad = " << dalpha_rad << endl;
     cout << "sprite->rotation() = " << sprite->getRotation() << endl;
     cout << "Sensor values: " << endl;
+    sensors.calculateSensorValues();
     sensors.getSensorValues();
     cout << endl;
 }

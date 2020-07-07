@@ -12,7 +12,22 @@ sensorMatrix::~sensorMatrix()
 }
 
 
-std::vector<int>& sensorMatrix::getSensorValues()
+std::vector<int> sensorMatrix::getSensorValues() const
+{
+    return this->sensorValues;
+}
+
+void sensorMatrix::setTrackImage(std::shared_ptr<sf::Image> trackImage)
+{
+    this->trackImage = trackImage;
+}
+
+void sensorMatrix::setCarSprite(std::shared_ptr<sf::Sprite> carSprite)
+{
+    this->carSprite = carSprite;
+}
+
+void sensorMatrix::calculateSensorValues()
 {
     const float  carSpriteWidth = carSprite->getTexture()->getSize().x * carSprite->getScale().x;
     const float carSpriteHeight = carSprite->getTexture()->getSize().y * carSprite->getScale().y;
@@ -57,17 +72,4 @@ std::vector<int>& sensorMatrix::getSensorValues()
         sensorValues[i] = 1024 - sensorValues[i];
         std:: cout << sensorValues[i] << std::endl;
     }
-
-    return this->sensorValues;
 }
-
-void sensorMatrix::setTrackImage(std::shared_ptr<sf::Image> trackImage)
-{
-    this->trackImage = trackImage;
-}
-
-void sensorMatrix::setCarSprite(std::shared_ptr<sf::Sprite> carSprite)
-{
-    this->carSprite = carSprite;
-}
-

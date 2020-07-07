@@ -1,10 +1,11 @@
 #include "track.h"
+#include <algorithm>
 
 track::track(int width, int height, trackType type, const std::vector<Point> *controlPoints):width(width), height(height)
 {
+    const int segm = 80;
     if(type == trackType::DEFAULT)
     {
-        int segm = 80;
         scg = std::make_unique<SingleCurveGenerator>(segm,
         std::vector<Point>
         {
@@ -20,7 +21,6 @@ track::track(int width, int height, trackType type, const std::vector<Point> *co
     }
     else if (type == trackType::DEFINED)
     {
-        int segm = 80;
         scg = std::make_unique<SingleCurveGenerator>(segm, *controlPoints);
     }
 
@@ -44,12 +44,12 @@ track::~track()
 {
 }
 
-sf::VertexArray* track::getVertices()
+sf::VertexArray* track::getVertices() const
 {
     return vertexArray.get();
 }
 
-std::shared_ptr<sf::Image> track::getTrackImage()
+std::shared_ptr<sf::Image> track::getTrackImage() const
 {
     return trackImage;
 }
