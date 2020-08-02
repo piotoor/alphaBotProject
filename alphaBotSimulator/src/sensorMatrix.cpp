@@ -29,28 +29,9 @@ void sensorMatrix::setCarSprite(std::shared_ptr<sf::Sprite> carSprite)
 
 void sensorMatrix::calculateSensorValues()
 {
-    const float  carSpriteWidth = carSprite->getTexture()->getSize().x * carSprite->getScale().x;
-    const float carSpriteHeight = carSprite->getTexture()->getSize().y * carSprite->getScale().y;
+    calculateSensorCenters();
+    const float carSpriteWidth = carSprite->getTexture()->getSize().x * carSprite->getScale().x;
     const float sensorSide = 0.075f * carSpriteWidth;
-    const float padding = 0.16f * carSpriteWidth;
-    const sf::Vector2f carPos = carSprite->getPosition();
-    std::vector<std::pair<float, float>> sensorCenters(5);
-    const float spriteRotationDeg = carSprite->getRotation();
-    const float spriteRotationRad = 3.14159 * spriteRotationDeg / 180;
-
-    for (int i = 0; i < 5; ++i)
-    {
-        const float posX = carPos.x - carSpriteWidth / 2.0f + padding + sensorSide * i * 2 + sensorSide / 2;
-        const float posY = carPos.y - 3 * carSpriteHeight / 4 + sensorSide / 2;
-        const float relativeX = posX - carPos.x;
-        const float relativeY = posY - carPos.y;
-        const float relativeDeltaX = relativeX * cos(spriteRotationRad) - relativeY * sin(spriteRotationRad);
-        const float relativeDeltaY = relativeX * sin(spriteRotationRad) + relativeY * cos(spriteRotationRad);
-
-        sensorCenters[i] = std::make_pair(carPos.x + relativeDeltaX,
-                                          carPos.y + relativeDeltaY);
-    }
-
     const float halfSensorSide = sensorSide / 2.0f;
 
     for (int i = 0; i < 5; ++i) {
@@ -66,10 +47,50 @@ void sensorMatrix::calculateSensorValues()
                 ++total;
             }
         }
-        // normalization
         sensorValues[i] /= total;
-        sensorValues[i] *= 4;
-        sensorValues[i] = 1024 - sensorValues[i];
-        std:: cout << sensorValues[i] << std::endl;
     }
+    normalizeSensorValues();
+}
+
+void sensorMatrix::calculateSensorCenters()
+{
+    const float carSpriteWidth = carSprite->getTexture()->getSize().x * carSprite->getScale().x;
+    const float carSpriteHeight = carSprite->getTexture()->getSize().y * carSprite->getScale().y;
+    const float sensorSide = 0.075f * carSpriteWidth;
+    const float padding = 0.16f * carSpriteWidth;
+    const sf::Vector2f carPos = carSprite->getPosition();
+
+    const float spriteRotationDeg = carSprite->getRotation();
+    const float spriteRotationRad = 3.14159 * spriteRotationDeg / 180;
+
+    for (int i = 0; i < 5; ++i)
+    {
+        const float posX = carPos.x - carSpriteWidth / 2.0f + padding + sensorSide * i * 2 + sensorSide / 2;
+        const float posY = carPos.y - 3 * carSpriteHeight / 4 + sensorSide / 2;
+        const float relativeX = posX - carPos.x;
+        const float relativeY = posY - carPos.y;
+        const float relativeDeltaX = relativeX * cos(spriteRotationRad) - relativeY * sin(spriteRotationRad);
+        const float relativeDeltaY = relativeX * sin(spriteRotationRad) + relativeY * cos(spriteRotationRad);
+
+        sensorCenters[i] = std::make_pair(carPos.x + relativeDeltaX,
+                                          carPos.y + relativeDeltaY);
+    }
+}
+
+void sensorMatrix::normalizeSensorValues()
+{
+    std::transform(begin(sensorValues),
+                   end(sensorValues),
+                   begin(sensorValues),
+                   [] (auto x)
+                   {
+                        x *= 4;
+                        return  1024 - x;
+                   });
+
+    std::cout << "Sensor values:" << std::endl;
+    std::copy(begin(sensorValues),
+              end(sensorValues),
+              std::ostream_iterator<int>(std::cout, " "));
+    std::cout << std::endl;
 }
