@@ -35,6 +35,19 @@ int main()
         c.onKeyPressed(elapsed);
         c.update(elapsed);
 
+//        // if(listen)
+//        {
+//            getSensorValues();
+//        }
+//        sendSensorvaluesToAlphaBot();
+//        //
+//        if (listenForPwmUpdate)
+//         {
+//             updatePwm()
+//         }
+
+
+
 
         window.clear();
         window.draw(*t.getVertices());
