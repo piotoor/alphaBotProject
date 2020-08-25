@@ -17,9 +17,12 @@ class sensorMatrix
         void                calculateSensorValues();
 
     private:
-        std::vector<int>                sensorValues = {0, 0, 0, 0, 0};
-        std::shared_ptr<sf::Image>      trackImage;
-        std::shared_ptr<sf::Sprite>     carSprite;
+        void calculateSensorCenters();
+        void normalizeSensorValues();
+        std::vector<std::pair<float, float>>    sensorCenters = {{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}};
+        std::vector<int>                        sensorValues = {0, 0, 0, 0, 0};
+        std::shared_ptr<sf::Image>              trackImage;
+        std::shared_ptr<sf::Sprite>             carSprite;
 };
 
 #endif // SENSORMATRIX_H
