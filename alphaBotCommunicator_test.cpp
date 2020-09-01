@@ -18,8 +18,11 @@ int main()
 	std::cout<<"sendSensorValsToAlphaBot..."<<std::endl;
 	
 	int* vals = new int[5];
-	
-	
+	vals[0] = 100;
+	vals[1] = 200;
+	vals[2] = 300;
+	vals[3] = 400;
+	vals[4] = 500;
 	
 	communicator.sendSensorValsToAlphaBot(vals);
 
