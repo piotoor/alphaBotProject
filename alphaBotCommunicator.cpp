@@ -96,21 +96,44 @@ bool alphaBotCommunicator::listenForPwmUpdate(int& pwma, int& pwmb)
 			   
 			     std::stringstream ss(msg);
 				std::string token;
-			   std::vector<zmq::message_t> cont;
+			   //std::vector<zmq::message_t> cont;
+			   std::vector<std::string> cont;
 			   
 			       while (std::getline(ss, token, ':')) {
-					cont.push_back(zmq::message_t(token));
+					   std::cout<<"in loop: "<<token<<std::endl;
+					//cont.push_back(zmq::message_t(token));
+					cont.push_back(token);
 					}
 					
-					std::cout<<"Header:"<<cont[0]<<"Content:"<<cont[1]<<std::endl;
+					std::cout<<"Header:"<<cont[0]<<" PWM:"<<cont[1]<<" Val:"<<cont[2]<<std::endl;
 				
-			   
+				if(cont[1].compare("A") != 0)
+				{
+					pwma = std::stoi(cont[2]);
+				}
+				else if(cont[1].compare("B") != 0)
+				{
+					pwmb = std::stoi(cont[2]);
+				}
+		
+std::cout<<"2"<<std::endl;	
+
+	const std::string rspMessage = "updatePwmRsp";
+	
+	   std::array<zmq::const_buffer, 1> getSensorValsRsp_msgs = {
+		   zmq::buffer(rspMessage)   };   
+	
+	zmq::send_multipart(sock, getSensorValsRsp_msgs);
+	
 			   return true;
 		   }
+		 
+		 std::cout<<"3"<<std::endl;
 		 
 		 return false;
 	 }
 	 
+	 std::cout<<"4"<<std::endl;
 	 return false;
 }
 

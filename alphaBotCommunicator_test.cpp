@@ -32,6 +32,7 @@ int main()
 	int pwmb = 0;
 
 	communicator.listenForPwmUpdate(pwma, pwmb);
+	communicator.listenForPwmUpdate(pwma, pwmb);
 	
 	std::cout<<"Pwma:"<<pwma<<"Pwmb:"<<pwmb<<std::endl;
 	
