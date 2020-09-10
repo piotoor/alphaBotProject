@@ -10,8 +10,8 @@
 #include "../alphaBotCommunicator.h"
 #include <vector>
 
-constexpr int width = 1200;
-constexpr int height = 800;
+constexpr int width = 1400;
+constexpr int height = 1000;
 
 int main()
 {
@@ -72,6 +72,7 @@ int main()
 
         window.clear(sf::Color::White);
         window.draw(*t.getVertices());
+        window.draw(*t.getVertices2());
         window.draw(*c.getSprite());
         window.display();
     }

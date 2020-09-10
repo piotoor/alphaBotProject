@@ -22,10 +22,12 @@ class track
         track(int width, int height, trackType type = trackType::DEFAULT, const std::vector<Point> *controlPoints = nullptr);
         virtual ~track();
         sf::VertexArray *getVertices() const;
+        sf::VertexArray *getVertices2() const;
         std::shared_ptr<sf::Image> getTrackImage() const;
 
     protected:
         std::unique_ptr<sf::VertexArray> vertexArray;
+        std::unique_ptr<sf::VertexArray> vertexArray2;
         std::unique_ptr<SingleCurveGenerator> scg;
 
     private:

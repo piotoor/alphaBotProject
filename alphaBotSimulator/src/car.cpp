@@ -19,7 +19,7 @@ car::car():d(4.2f), dir(1.0f),
     sprite->setTexture(*assets::getTexture("car"));
     sprite->setScale(0.2f, 0.2f);
     sprite->setOrigin(assets::getTexture("car")->getSize().x / 2.0, assets::getTexture("car")->getSize().y * 3.0 / 4.0);
-    sprite->setPosition(400.0f, 400.0f);
+    sprite->setPosition(800.0f, 800.0f);
     axisLength = sprite->getTexture()->getSize().x * sprite->getScale().x;
     wheelRadius = 92 * sprite->getScale().y;
     sensors.setCarSprite(sprite);
