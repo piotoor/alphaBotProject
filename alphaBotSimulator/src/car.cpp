@@ -235,3 +235,6 @@ void car::setTrackImage(std::shared_ptr<sf::Image> trackImage)
     this->sensors.setTrackImage(trackImage);
 }
 
+std::vector<int> car::getSensorValues() {
+    return sensors.getSensorValues();
+}

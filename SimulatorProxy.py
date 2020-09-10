@@ -34,20 +34,32 @@ class SimulatorProxy:
     def updatePWM(self, pwm, val):
         #TODO implement IPC
 
-        pwmCode = str(pwm.type)
+#        pwmCode = str(pwm.type)
+
+#        from AlphaBot import PINS
+#
+#        if pwm.type == PINS["ENA"]:
+#            pwmCode = "A"
+#        elif pwm.type == PINS["ENB"]:
+#            pwmCode = "B"
+#        else:
+#            pwmCode = "N"
 
         from AlphaBot import PINS
 
-        if pwm.type == PINS["ENA"]:
+        if pwm == PINS["ENA"]:
             pwmCode = "A"
-        elif pwm.type == PINS["ENB"]:
+        elif pwm == PINS["ENB"]:
             pwmCode = "B"
         else:
             pwmCode = "N"
 
         msg = "updatePWM:"+pwmCode+":"+str(val)
+        print("sending = {}".format(msg))
 
         self.socket.send(msg.encode("utf-8"))
+        rsp = self.socket.recv()
+        print("rsp = {}".format(rsp))
 
         pass
 
@@ -59,6 +71,10 @@ class SimulatorProxy:
         sections = msgDecoded.split(":")
 
         msgContent = sections[1].split(',')
+        print("parseGetSensorValsMsg");
+        print("sections = {}".format(sections))
+        print("msgContent = {}".format(msgContent))
+
 
         if len(msgContent) != 5:
             print("ERROR parseGetSensorValsMsg - incorrect number of sensor inputs received!")

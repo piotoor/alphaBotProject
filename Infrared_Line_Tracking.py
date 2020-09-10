@@ -6,6 +6,6 @@ from InfraredLineTracker import InfraredLineTracker
 if __name__ == '__main__':
 
     tracker = InfraredLineTracker()
-    #tracker.useSim(True)
+    tracker.useSim(True)
     tracker.run()
 

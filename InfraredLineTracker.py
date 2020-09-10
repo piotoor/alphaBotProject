@@ -43,9 +43,11 @@ class InfraredLineTracker:
             print("Line follow Example")
             time.sleep(0.5)
 
-            for i in range(0, self.calibrationIterationCount):
-                self.TR.calibrate(self.readSensorValues())
-                #print (i)
+            if not self.Ab.useIpc:
+                print("debug pkoz")
+                for i in range(0, self.calibrationIterationCount):
+                    self.TR.calibrate(self.readSensorValues())
+                    #print (i)
 
             print(self.TR.calibratedMin)
             print(self.TR.calibratedMax)
