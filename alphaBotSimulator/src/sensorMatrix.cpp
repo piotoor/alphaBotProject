@@ -85,7 +85,8 @@ void sensorMatrix::normalizeSensorValues()
                    [] (auto x)
                    {
                         x *= 4;
-                        return  1024 - x;
+                        //return  1024 - x;
+                        return x;
                    });
 
     std::cout << "Sensor values:" << std::endl;
