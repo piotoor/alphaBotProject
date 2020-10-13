@@ -220,9 +220,9 @@ class InfraredLineTracker:
             return self.TR.AnalogRead()
 
     def useSim(self, use):
-        self.Ab.useIpc = True
+
         if use:
             from SimulatorProxy import SimulatorProxy
-
+            self.Ab.useIpc = True
             self.sim = SimulatorProxy()
             self.Ab.sim = self.sim
