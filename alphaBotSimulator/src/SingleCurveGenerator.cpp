@@ -19,13 +19,11 @@ SingleCurveGenerator:: SingleCurveGenerator(size_t numOfSegments, const std::vec
     controlPoints(controlPoints.begin(), controlPoints.end())
 {
 
-#ifdef TRACE
     std::cout << "Control points:" << std::endl;
     for(size_t i = 0; i < controlPoints.size(); i++)
     {
         std::cout << "[" << controlPoints[i].first << "; " << controlPoints[i].second << "] " << std::endl;
     }
-#endif //TRACE
     this->order = controlPoints.size() - 1;
 }
 
