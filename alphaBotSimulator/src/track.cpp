@@ -12,24 +12,6 @@ track::track(int width, int height, trackType type, const std::vector<Point> *co
     std::unique_ptr<SingleCurveGenerator> scg2;
     if(type == trackType::DEFAULT)
     {
-//        scg = std::make_unique<SingleCurveGenerator>(segm,
-//        std::vector<Point>
-//        {
-////            std::make_pair(1100.21, 0.324),
-////            std::make_pair(1020.23,100.11),
-////            std::make_pair(800.20, 300.00),
-////            std::make_pair(730.33, 500.22),
-////            std::make_pair(560.22, 573.75),
-////            std::make_pair(710.22, 773.75),
-////            std::make_pair(1020.22, 800.75),
-////            std::make_pair(1200.22, 900.75),
-//            std::make_pair(0, 500),
-//            std::make_pair(350, 500),
-//            std::make_pair(700, 500),
-//            std::make_pair(1050, 500),
-//            std::make_pair(1400, 500),
-//        });
-
         feclearexcept(FE_ALL_EXCEPT);
         const unsigned int numOfPoints = 50;
         const double dx = (double)width / numOfPoints;
@@ -47,14 +29,6 @@ track::track(int width, int height, trackType type, const std::vector<Point> *co
         scg2 = std::make_unique<SingleCurveGenerator>(segm,
         std::vector<Point>
         {
-//            std::make_pair(0.21, 0.324),
-//            std::make_pair(100.23,200.11),
-//            std::make_pair(400.20, 210.00),
-//            std::make_pair(730.33, 260.22),
-//            std::make_pair(560.22, 573.75),
-//            std::make_pair(610.22, 473.75),
-//            std::make_pair(1020.22, 300.75),
-//            std::make_pair(1200.22, 200.75),
             std::make_pair(500, 0),
             std::make_pair(600, 250),
             std::make_pair(950, 500),
