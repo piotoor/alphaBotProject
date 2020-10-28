@@ -32,10 +32,10 @@ SingleCurveGenerator:: ~SingleCurveGenerator()
 
 }
 
-int SingleCurveGenerator:: Newton(int k)
+double SingleCurveGenerator:: Newton(int k)
 {
-    int num = 1;
-    int denom = 1;
+    double num = 1;
+    double denom = 1;
 
     if(newtonCache.find(std::make_pair(order, k)) == newtonCache.end())
     {
@@ -58,7 +58,7 @@ int SingleCurveGenerator:: Newton(int k)
 double SingleCurveGenerator:: Bernstein(int i, double t)
 {
     // Newton(n,i) * (t**i) * (1.0-t)**(n-i)
-    return (double)Newton(i) * pow(t, (double)i) * pow(1.0 - t, (double)(order - i));
+    return Newton(i) * pow(t, (double)i) * pow(1.0 - t, (double)(order - i));
 }
 
 Point SingleCurveGenerator:: p(double t)

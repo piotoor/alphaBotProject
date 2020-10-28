@@ -21,10 +21,10 @@ class SingleCurveGenerator
 
     private:
         Point p(double t);
-        int Newton(int k);
+        double Newton(int k);
         double Bernstein(int i, double t);
 
-        std::map<std::pair<int, int>, int> newtonCache;
+        std::map<std::pair<int, int>, double> newtonCache;
         size_t numOfSegments;
         std::vector<Point> controlPoints;
         size_t order;

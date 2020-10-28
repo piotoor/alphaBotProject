@@ -31,7 +31,7 @@ track::track(int width, int height, trackType type, const std::vector<Point> *co
 //        });
 
         feclearexcept(FE_ALL_EXCEPT);
-        const unsigned int numOfPoints = 10;
+        const unsigned int numOfPoints = 50;
         const double dx = (double)width / numOfPoints;
         std::vector<Point> points;
         std::cout << "dx = " << dx << std::endl;
@@ -77,7 +77,10 @@ track::track(int width, int height, trackType type, const std::vector<Point> *co
     {
         (*vertexArray)[i].position = sf::Vector2f(trackPoints[i].first, trackPoints[i].second);
         (*vertexArray)[i].color = sf::Color::Red;
+    }
 
+    for(size_t i = 0; i < trackPoints2.size(); i++)
+    {
         (*vertexArray2)[i].position = sf::Vector2f(trackPoints2[i].first, trackPoints2[i].second);
         (*vertexArray2)[i].color = sf::Color::Red;
     }
@@ -102,6 +105,8 @@ track::track(int width, int height, trackType type, const std::vector<Point> *co
         std::cout << "system jest zdrowy\n";
     }
 
+    std::cout << "wcisnij klawisz głupcze" << std::endl;
+    getchar();
 }
 
 track::~track()
